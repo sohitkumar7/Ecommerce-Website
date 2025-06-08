@@ -15,7 +15,7 @@ const initialstate = {
 function AuthLogin() {
   const [formData, setFormData] = useState(initialstate);
   const navigate = useNavigate();
-  console.log(formData);
+  // console.log(formData);
 
 
   const dispatch = useDispatch();

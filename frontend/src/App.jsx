@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import AuthLayout from "./components/auth/layout";
 import AuthLogin from "./pages/auth/login";
@@ -17,11 +17,18 @@ import Shoppingcheckout from "./pages/shopping-view/checkout.jsx";
 import Checkauth from "./components/commmon/check-auth.jsx";
 import Unauthpage from "./pages/unauth-age/index.jsx";
 import { Toaster } from 'react-hot-toast'
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { checkAuth } from "./store/auth-slice";
 function App() {
 
   const {isAuthenticated,user} = useSelector(state => state.auth)
+  
+  const dispatch = useDispatch();
 
+  useEffect(()=>{
+    dispatch(checkAuth());
+  },[dispatch])
+  
   return (
     <div className="flex-col overflow-hidden bg-white">
       <Routes>

@@ -7,7 +7,11 @@ import router from "./Routes/auth-routes.js";
 
 dotenv.config();
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173", // or whatever your frontend domain is
+  credentials: true,
+}));
+
 app.use(cookieParser())
 app.use(express.json())
 

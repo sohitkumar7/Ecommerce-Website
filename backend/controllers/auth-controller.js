@@ -10,8 +10,7 @@ export const register = async (req, res) => {
     const alreadyaccount = await user.findOne({ email });
 
     if (alreadyaccount) {
-      return res
-        .json({success: false, message: "User Already Exist"});
+      return res.json({ success: false, message: "User Already Exist" });
     }
 
     const hashpassword = await bcrypt.hash(password, 10);
@@ -33,7 +32,7 @@ export const register = async (req, res) => {
           _id: newuser._id,
           email: newuser.email,
           usernmae: newuser.email,
-          role:newuser.role
+          role: newuser.role,
         },
       });
     }
@@ -67,7 +66,7 @@ export const login = async (req, res) => {
       });
     }
 
-    createandsavecookies(user._id, res);
+    createandsavecookies(olduser._id, res);
     res.status(200).json({
       success: true,
       message: "User Login Successfully",
@@ -75,7 +74,7 @@ export const login = async (req, res) => {
         _id: olduser._id,
         email: olduser.email,
         usernmae: olduser.userName,
-        role:olduser.role
+        role: olduser.role,
       },
     });
   } catch (error) {
@@ -100,5 +99,37 @@ export const logout = async (req, res) => {
       success: false,
       message: "Error in logout",
     });
+  }
+};
+
+export const authMiddleware = async (req, res,next) => {
+  try {
+    const token = req.cookies.jwt;
+
+    if (!token) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Unauthorized: No token" });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_TOKEN);
+    if (!decoded) {
+      return res.status(401).json({ success: false, message: "Invalid token" });
+    }
+
+    const User = await user.findById(decoded.userid).select("-password");
+    if (!User) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    req.user = User;
+    next();
+  } catch (error) {
+    console.error("CheckAuth Error:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: error });
   }
 };
