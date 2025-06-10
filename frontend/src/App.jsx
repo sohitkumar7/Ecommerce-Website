@@ -21,14 +21,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { checkAuth } from "./store/auth-slice";
 function App() {
 
-  const {isAuthenticated,user} = useSelector(state => state.auth)
+  const {isAuthenticated,user,isLoading} = useSelector(state => state.auth)
   
   const dispatch = useDispatch();
 
   useEffect(()=>{
     dispatch(checkAuth());
   },[dispatch])
-  
+
+  if(isLoading) return <div>Loading....</div>
+
   return (
     <div className="flex-col overflow-hidden bg-white">
       <Routes>
