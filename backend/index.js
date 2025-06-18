@@ -4,6 +4,8 @@ import dotenv from "dotenv"
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import router from "./Routes/auth-routes.js";
+import adminProductsRouter from "./Routes/admin/product-route.js"
+
 
 dotenv.config();
 const app = express();
@@ -25,6 +27,7 @@ try {
 }
 
 app.use("/api/auth",router);
+app.use("/api/admin/products",adminProductsRouter);
 
 app.listen(port,()=> {
     console.log("server is listening in port ",port);
