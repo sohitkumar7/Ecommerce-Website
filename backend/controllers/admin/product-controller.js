@@ -4,7 +4,8 @@ import Product from "../../models/Product.js";
 export const handleimageUpload = async (req, res) => {
   try {
     const b64 = Buffer(req.file.buffer).toString("base64");
-    const url = "data" + req.file.mimetype + ";base64," + b64;
+    // const url = "data" + req.file.mimetype + ";base64," + b64;
+    const url = `data:${req.file.mimetype};base64,${b64}`;
     const result = await imageUploadUtil(url);
     res.json({
       success: true,
@@ -12,13 +13,14 @@ export const handleimageUpload = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    // const errorr = error
     res.json({
       success: false,
-      message: "Error occured",
+      message: "Error Occured",
+      error: error.message,
     });
   }
 };
-
 // add product controller
 export const addProduct = async (req, res) => {
   try {
@@ -31,7 +33,7 @@ export const addProduct = async (req, res) => {
       price,
       salePrice,
       totalStock,
-    } = req.body();
+    } = req.body;
 
     const newlyCreatedProduct = new Product({
        image,
@@ -90,7 +92,7 @@ export const editProduct = async (req, res) => {
       price,
       salePrice,
       totalStock,
-    } = req.body();
+    } = req.body;
 
     const findProduct = await Product.findById(id);
     if(!findProduct){
@@ -130,7 +132,7 @@ export const deleteProduct = async (req, res) => {
 
     const {id} = req.params;
 
-    const finfProduct = await Product.findByIdAndUpdate(id);
+    const finfProduct = await Product.findByIdAndDelete(id);
     if(!finfProduct){
         return res.status(404).json({
             success:false,

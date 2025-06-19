@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import {  FileIcon, UploadCloudIcon, XIcon } from "lucide-react";
+import { FileIcon, UploadCloudIcon, XIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import axios from "axios";
 
@@ -36,23 +36,30 @@ function ProductImageUpload({
   }
 
   console.log(imageFile);
-  
-  async function uploadimagetocloudnary(){
-   setimageloadingstate(true);
-    
-    const data = new FormData();
-   data.append('my_file',imageFile)
-   const response = await axios.post("/api/admin/products/upload-image",data) 
-    console.log("response",response)
-   if(response?.data?.success){
-      setuploadedImageUrl(response.data.result.url)
-      setimageloadingstate(false);   
+
+  async function uploadimagetocloudnary() {
+    try {
+      setimageloadingstate(true);
+      const data = new FormData();
+      data.append("my_file", imageFile);
+      const response = await axios.post(
+        "/api/admin/products/upload-image",
+        data
+      );
+      console.log("response", response);
+      if (response?.data?.success) {
+        setuploadedImageUrl(response.data.result.url);
+      }
+    } catch (err) {
+      console.error("Image upload failed:", err);
+    } finally {
+      setimageloadingstate(false);
     }
   }
-  
-  useEffect(()=>{
-    if(imageFile != null) uploadimagetocloudnary()
-  },[imageFile])
+
+  useEffect(() => {
+    if (imageFile != null) uploadimagetocloudnary();
+  }, [imageFile]);
 
   return (
     <>
@@ -82,6 +89,9 @@ function ProductImageUpload({
                 </span>
               </Label>
             ) : (
+              // imageloadingstate?
+              // <Skeleton classname="h-10 bg-grey-100"/>:
+
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   <FileIcon className="w-8 h-8 text-primary mr-2 " />
@@ -94,7 +104,7 @@ function ProductImageUpload({
                   onClick={handleRemoveimage}
                 >
                   <XIcon className="w-4 h-4" />
-                  <span className = "sr-only"></span>
+                  <span className="sr-only"></span>
                 </Button>
               </div>
             )}

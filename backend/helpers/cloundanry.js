@@ -2,7 +2,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import multer from "multer";
 
 cloudinary.config({
-    clod_name:"djxzbsfmg",
+    cloud_name:"djxzbsfmg",
     api_key:"752911873929776",
     api_secret:"ZXbrBCT7YpBPVaVNIMRcRNeXUbg"
 })
