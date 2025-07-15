@@ -50,6 +50,19 @@ export const checkAuth  = createAsyncThunk(
   }
 );
 
+export const logoutUser = createAsyncThunk(
+  "/auth/logout",
+
+  async (formData) => {
+    const response = await axios.post("/api/auth/logout",{
+      withCredentials: true,
+    });
+
+    return response.data;
+  }
+);
+
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -97,6 +110,10 @@ const authSlice = createSlice({
       .addCase(checkAuth.rejected, (state, action) => {
         state.isLoading = false;
         state.user = null;
+        state.isAuthenticated = false;
+      }).addCase(logoutUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user =  null;
         state.isAuthenticated = false;
       })
   },

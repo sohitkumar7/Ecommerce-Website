@@ -32,7 +32,7 @@ export const deteleProduct = createAsyncThunk(
     return result?.data;
   }
 );
-export const editaProduct = createAsyncThunk(
+export const editProduct = createAsyncThunk(
   "/product/editaproduct",
   async ({id,formData}) => {
     const result = await axios.put(`/api/admin/products/edit/${id}`,formData,{
