@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import router from "./Routes/auth-routes.js";
 import adminProductsRouter from "./Routes/admin/product-route.js"
-
+import shopProductRoutes from "./Routes/Shop/products-route.js"
 
 dotenv.config();
 const app = express();
@@ -18,7 +18,7 @@ app.use(cookieParser())
 app.use(express.json())
 
 const mongodb_uri = process.env.mongodb_uri;
-const port = process.env.PORT;
+const port = process.env.PORT; 
 try {
     mongoose.connect(mongodb_uri);
     console.log("mongoDB connect successfully")
@@ -28,7 +28,7 @@ try {
 
 app.use("/api/auth",router);
 app.use("/api/admin/products",adminProductsRouter);
-
+app.use("/api/shop/products",shopProductRoutes)
 app.listen(port,()=> {
     console.log("server is listening in port ",port);
 })
