@@ -3,7 +3,7 @@ import { Card, CardContent, CardFooter } from "../ui/card";
 
 function AdminProductTile({ handleDelete,product ,setopenCreateProductDialog,setcurrentEditedId,setFormData}) {
   return (
-    <Card className="w-full max-w-sm mx-auto">
+    <Card className="w-full  max-w-sm mx-auto">
       <div className="relative ">
         <img
           className="w-full h-[300px] object-cover rounded-t-lg"

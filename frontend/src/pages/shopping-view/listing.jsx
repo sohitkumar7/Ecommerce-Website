@@ -6,7 +6,22 @@ import { sortOptions } from "../../config/index";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllFilterProducts } from "../../store/shop/product-slice";
 import ShoppingProductTile from "../../components/shopping-view/Product-tile";
-import {useSearchParams} from "react-router-dom"
+import {createSearchParams, useSearchParams} from "react-router-dom"
+
+
+
+function createSearchParamsHelper(filterParams){
+  const queryParams = [];
+  for(const [key,value] of Object.entries(filterParams)){
+    if(Array.isArray(value) && value.length > 0){
+      const paramValue = value.join(',')
+
+      queryParams.push(`${key} = ${encodeURIComponent(paramValue)}`)
+    }
+  }
+ return queryParams.join('& ')
+} 
+
 
 function Shoppinglisting() {
   // feetch list of product
@@ -15,6 +30,7 @@ function Shoppinglisting() {
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState(null);
   const [searchParams,setSearchParams] = useSearchParams()
+  
   function handleSort(value) {
     console.log(value);
     setSort(value);
@@ -50,16 +66,23 @@ function Shoppinglisting() {
     setFilters(JSON.parse(sessionStorage.getItem("filters")) || {});
   }, []);
 
-  useEffect(() => {}, [filters]);
-
   useEffect(() => {
-    dispatch(fetchAllFilterProducts());
-  }, [dispatch]);
+    if(filters && Object.keys(filters).length > 0){
+      const createQueryString  = createSearchParamsHelper(filters)
+      setSearchParams(new URLSearchParams(createQueryString))
+      
+    }   
+  }, [filters]);
+  
+  useEffect(() => {
+    if(filters !== null && sort !== null)
+    dispatch(fetchAllFilterProducts({filtersParams : filters, sortParams:sort }));
+  }, [dispatch ,sort, filters]);
 
   // console.log(filters,"filters");
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6 p-4 md:p-6">
+    <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
       <ProductFilter filters={filters} handleFilter={handleFilter} />
       <div className="bg-background w-full rounded-lg shadow-sm">
         <div className="p-4 border-b  flex items-center justify-between">
