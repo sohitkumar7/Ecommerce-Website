@@ -4,10 +4,10 @@ import {DropdownMenu,DropdownMenuTrigger,DropdownMenuContent,DropdownMenuLabel,D
 import { ArrowUpDownIcon } from "lucide-react";
 import { sortOptions } from "../../config/index";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllFilterProducts } from "../../store/shop/product-slice";
+import { fetchAllFilterProducts, fetchProductDetails } from "../../store/shop/product-slice";
 import ShoppingProductTile from "../../components/shopping-view/Product-tile";
 import {createSearchParams, useSearchParams} from "react-router-dom"
-
+import ProductDetailsDialog from "../../components/shopping-view/productDetails"
 
 
 function createSearchParamsHelper(filterParams){
@@ -26,11 +26,13 @@ function createSearchParamsHelper(filterParams){
 function Shoppinglisting() {
   // feetch list of product
   const dispatch = useDispatch();
-  const { productList } = useSelector((state) => state.shopProducts);
+  const { productList,productDetail } = useSelector((state) => state.shopProducts);
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState(null);
   const [searchParams,setSearchParams] = useSearchParams()
-  
+  const [openDetailsDialog,setOpenDetailsDialog] = useState(false)
+
+
   function handleSort(value) {
     console.log(value);
     setSort(value);
@@ -79,8 +81,18 @@ function Shoppinglisting() {
     dispatch(fetchAllFilterProducts({filtersParams : filters, sortParams:sort }));
   }, [dispatch ,sort, filters]);
 
-  // console.log(filters,"filters");
+  useEffect(()=>{
+    if(productDetail !== null){
+      setOpenDetailsDialog(true)
+    }
+  },[productDetail])
 
+function handleGetProductDetails(getCurrentProductId){
+  console.log(getCurrentProductId)
+  dispatch(fetchProductDetails(getCurrentProductId))
+}
+
+// console.log(productDetail,"productDetails")
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
       <ProductFilter filters={filters} handleFilter={handleFilter} />
@@ -122,14 +134,16 @@ function Shoppinglisting() {
           {productList && productList.length > 0
             ? productList.map((productItem) => (
                 <ShoppingProductTile
-                  // handleGetProductDetails={handleGetProductDetails}
+                  key={productItem._id}
+                  handleGetProductDetails={handleGetProductDetails}
                   product={productItem}
                   // handleAddtoCart={handleAddtoCart}
                 />
               ))
             : null}
         </div>
-      </div>
+      </div> 
+      <ProductDetailsDialog open = {openDetailsDialog} setOpen = {setOpenDetailsDialog} productDetails={productDetail} />
     </div>
   );
 }
