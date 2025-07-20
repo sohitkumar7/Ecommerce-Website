@@ -10,18 +10,19 @@ export const addToCart = createAsyncThunk(
   "cart/addToCart",
   async ({ userId, productId, quantity }) => {
     const response = await axios.post("/api/shop/cart/add", {
-      userId,
-      productId,
-      quantity,
+      userId, productId, quantity
     });
 
     return response.data;
   }
 );
+
 export const fetchCartItems = createAsyncThunk(
   "cart/fetchCartItems",
   async ({ userId }) => {
     const response = await axios.get(`/api/shop/cart/get/${userId}`);
+
+    console.log(response.data,"fetchCartItems")
 
     return response.data;
   }
@@ -56,22 +57,23 @@ const shoppingCartSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(addToCart.pending, (state) => {
+      .addCase(addToCart.pending, (state,action) => {
         state.isLoading = true;
       })
-      .addCase(addToCart.fulfilled, (state) => {
+      .addCase(addToCart.fulfilled, (state,action) => {
         state.isLoading = false;
         state.cartItems = action.payload.data;
       })
-      .addCase(addToCart.rejected, (state) => {
+      .addCase(addToCart.rejected, (state,action) => {
         state.isLoading = true;
         state.cartItems = [];
       })
       .addCase(fetchCartItems.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(fetchCartItems.fulfilled, (state) => {
+      .addCase(fetchCartItems.fulfilled, (state,action) => {
         state.isLoading = false;
+        // console.log(action.payload.data);
         state.cartItems = action.payload.data;
       })
       .addCase(fetchCartItems.rejected, (state) => {
@@ -81,7 +83,7 @@ const shoppingCartSlice = createSlice({
       .addCase(UpdateCartQuantity.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(UpdateCartQuantity.fulfilled, (state) => {
+      .addCase(UpdateCartQuantity.fulfilled, (state,action) => {
         state.isLoading = false;
         state.cartItems = action.payload.data;
       })
@@ -92,7 +94,7 @@ const shoppingCartSlice = createSlice({
       .addCase(delterCartItem.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(delterCartItem.fulfilled, (state) => {
+      .addCase(delterCartItem.fulfilled, (state,action) => {
         state.isLoading = false;
         state.cartItems = action.payload.data;
       })

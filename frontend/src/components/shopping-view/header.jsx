@@ -13,6 +13,8 @@ import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { useDispatch, useSelector } from "react-redux";
 import { shopingViewHeaderMenuItems } from "../../config";
 import { logoutUser } from "../../store/auth-slice";
+import UserCartWrapper from "./cart-wrapper";
+import { useState } from "react";
 
 function MenuItems() {
   return (
@@ -34,6 +36,7 @@ function HeaderRightContent() {
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [openCartSheet, setOpenCartSheet] = useState(false);
 
   function handlelogout() {
     console.log("logout");
@@ -42,10 +45,18 @@ function HeaderRightContent() {
 
   return (
     <div className="flex lg:items-center lg:flex-row  flex-col gap-4 ">
-      <button varient="outline" size="icon">
-        <ShoppingCart className="w-6 h-6" />
-        <span className="sr-only"> User cart</span>
-      </button>
+      <Sheet open={openCartSheet} onOpenChange={() => setOpenCartSheet(false)}>
+        <button
+          onClick={() => setOpenCartSheet(true)}
+          variant="outline"
+          size="icon"
+        >
+          <ShoppingCart className="w-6 h-6" />
+          <span className="sr-only">User cart</span>
+        </button>
+        <UserCartWrapper />
+      </Sheet>
+
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Avatar className="bg-black ">
@@ -85,8 +96,8 @@ function Shoppingheader() {
         <Link to="/shop/home" className="flex items-center gap-2">
           <HousePlug className="h-6 w-6" />
           <span className="font-bold">Ecommerce</span>
-        </Link>~
-
+        </Link>
+        
         <Sheet>
           <SheetTrigger asChild>
             <button varient="outline" size="icon" className="lg:hidden">
@@ -96,16 +107,15 @@ function Shoppingheader() {
           </SheetTrigger>
           <SheetContent side="left" className="w-full max-w-xs">
             <MenuItems />
-            <HeaderRightContent   />
+            <HeaderRightContent />
           </SheetContent>
         </Sheet>
         <div className="hidden lg:block">
           <MenuItems />
         </div>
-          <div className="hidden lg:block">
-            <HeaderRightContent   />
-          </div>
-        
+        <div className="hidden lg:block">
+          <HeaderRightContent />
+        </div>
       </div>
     </header>
   );

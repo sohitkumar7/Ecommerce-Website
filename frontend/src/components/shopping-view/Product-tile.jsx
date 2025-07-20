@@ -2,8 +2,9 @@ import React from "react";
 import { Card, CardContent, CardFooter } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { brandOptionsMap, categoryOptionsMap } from "../../config";
+import {Button} from "../ui/button"
 
-function ShoppingProductTile({ product,handleGetProductDetails }) {
+function ShoppingProductTile({handleAddToCart, product,handleGetProductDetails }) {
   return (
     <Card className="w-full max-w-sm mx-auto">
       <div onClick={()=> handleGetProductDetails(product?._id)}>
@@ -45,12 +46,12 @@ function ShoppingProductTile({ product,handleGetProductDetails }) {
             ) : null}
           </div>
         </CardContent>
-        <CardFooter>
-          <button className=" p-1 w-full bg-black text-white rounded ">
-            Add to Cart
-          </button>
-        </CardFooter>
       </div>
+        <CardFooter>
+          <Button onClick={() => handleAddToCart(product?._id)} className=" w-full">
+            Add to Cart  
+          </Button>
+        </CardFooter>
     </Card>
   );
 }
