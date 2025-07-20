@@ -85,7 +85,7 @@ function Shoppingheader() {
         <Link to="/shop/home" className="flex items-center gap-2">
           <HousePlug className="h-6 w-6" />
           <span className="font-bold">Ecommerce</span>
-        </Link>
+        </Link>~
 
         <Sheet>
           <SheetTrigger asChild>
