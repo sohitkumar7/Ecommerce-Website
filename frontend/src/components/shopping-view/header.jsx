@@ -14,7 +14,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { shopingViewHeaderMenuItems } from "../../config";
 import { logoutUser } from "../../store/auth-slice";
 import UserCartWrapper from "./cart-wrapper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { fetchCartItems } from "../../store/shop/cart-slice";
 
 function MenuItems() {
   return (
@@ -37,8 +38,15 @@ function HeaderRightContent() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [openCartSheet, setOpenCartSheet] = useState(false);
+  const {cartItems} = useSelector(state=>state.shopCart)
 
-  function handlelogout() {
+  useEffect(()=>{
+    const userId = user?._id
+    console.log(userId,"userid")
+    dispatch(fetchCartItems({userId}))
+  },[dispatch])
+
+  function handlelogout(){
     console.log("logout");
     dispatch(logoutUser());
   }
@@ -54,7 +62,7 @@ function HeaderRightContent() {
           <ShoppingCart className="w-6 h-6" />
           <span className="sr-only">User cart</span>
         </button>
-        <UserCartWrapper />
+        <UserCartWrapper cartItems={cartItems &&  cartItems.items && cartItems.items.length > 0 ? cartItems.items : []}  />
       </Sheet>
 
       <DropdownMenu>

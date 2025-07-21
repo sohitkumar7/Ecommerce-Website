@@ -127,7 +127,7 @@ export const UpdateCartitemsQuantity = async (req, res) => {
       });
     }
 
-    const findCurrentProductIndex = Cart.items.findIndex(
+    const findCurrentProductIndex = cart.items.findIndex(
       (item) => item.productId.toString() === productId
     );
 
@@ -167,7 +167,7 @@ export const UpdateCartitemsQuantity = async (req, res) => {
     console.log(error);
     res.status(500).json({
       success: false,
-      message: "Something Went Wrong",
+      message: "Something went wrong",
     });
   }
 };
@@ -175,7 +175,8 @@ export const UpdateCartitemsQuantity = async (req, res) => {
 export const deleteCartItems = async (req, res) => {
   try {
     const { userId, productId } = req.params;
-    if (!userId || !productId <= 0) {
+    
+    if (!userId || !productId ) {
       return res.status(400).json({
         success: false,
         message: "invalid date provided",
