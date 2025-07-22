@@ -184,7 +184,7 @@ function Shoppinghome() {
             {" "}
             Shop by brand
           </h2>
-          <div className="grid grid-col-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+          <div className="grid grid-col-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
             {brandWithIcon.map((brandItem) => (
               <Card
                 onClick={() => handeNavigateToListingPage(brandItem, "brand")}
