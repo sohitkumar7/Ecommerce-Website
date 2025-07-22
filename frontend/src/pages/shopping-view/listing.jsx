@@ -76,7 +76,7 @@ function Shoppinglisting() {
     }
     // console.log(cpyFilters);
     setFilters(cpyFilters);
-    sessionStorage.setItem("filters", JSON.stringify(cpyFilters));
+    sessionStorage.setItem("filter", JSON.stringify(cpyFilters));
   }
   function handleGetProductDetails(getCurrentProductId) {
     console.log(getCurrentProductId);
@@ -102,7 +102,7 @@ function Shoppinglisting() {
 
   useEffect(() => {
     setSort("price-lowtohigh");
-    setFilters(JSON.parse(sessionStorage.getItem("filters")) || {});
+    setFilters(JSON.parse(sessionStorage.getItem("filter")) || {});
   }, []);
 
   useEffect(() => {

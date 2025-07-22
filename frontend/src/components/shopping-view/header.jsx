@@ -18,16 +18,26 @@ import { useEffect, useState } from "react";
 import { fetchCartItems } from "../../store/shop/cart-slice";
 
 function MenuItems() {
+
+  const navigate = useNavigate();
+
+    function handeNavigate(getCurrentItem) {
+
+    sessionStorage.removeItem("filter");
+    const currentFilter = getCurrentItem.id !== 'home' ? 
+    {
+      category : [getCurrentItem.id]
+    } : null
+
+    sessionStorage.setItem("filter", JSON.stringify(currentFilter));
+    navigate(getCurrentItem.path);
+  }
+  
+
   return (
     <nav className="flex flex-col mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row">
       {shopingViewHeaderMenuItems.map((menuItems) => (
-        <Link
-          className="text-sm font-medium"
-          to={menuItems.path}
-          key={menuItems.id}
-        >
-          {menuItems.label}
-        </Link>
+        <label onClick={()=>{handeNavigate(menuItems)}} className="text-sm font-medium cursor-pointer" >{menuItems.label}</label>
       ))}
     </nav>
   );
@@ -38,15 +48,15 @@ function HeaderRightContent() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [openCartSheet, setOpenCartSheet] = useState(false);
-  const {cartItems} = useSelector(state=>state.shopCart)
+  const { cartItems } = useSelector((state) => state.shopCart);
 
-  useEffect(()=>{
-    const userId = user?._id
-    console.log(userId,"userid")
-    dispatch(fetchCartItems({userId}))
-  },[dispatch])
+  useEffect(() => {
+    const userId = user?._id;
+    console.log(userId, "userid");
+    dispatch(fetchCartItems({ userId }));
+  }, [dispatch]);
 
-  function handlelogout(){
+  function handlelogout() {
     console.log("logout");
     dispatch(logoutUser());
   }
@@ -62,7 +72,13 @@ function HeaderRightContent() {
           <ShoppingCart className="w-6 h-6" />
           <span className="sr-only">User cart</span>
         </button>
-        <UserCartWrapper cartItems={cartItems &&  cartItems.items && cartItems.items.length > 0 ? cartItems.items : []}  />
+        <UserCartWrapper
+          cartItems={
+            cartItems && cartItems.items && cartItems.items.length > 0
+              ? cartItems.items
+              : []
+          }
+        />
       </Sheet>
 
       <DropdownMenu>
@@ -105,7 +121,7 @@ function Shoppingheader() {
           <HousePlug className="h-6 w-6" />
           <span className="font-bold">Ecommerce</span>
         </Link>
-        
+
         <Sheet>
           <SheetTrigger asChild>
             <button varient="outline" size="icon" className="lg:hidden">
