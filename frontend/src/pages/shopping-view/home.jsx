@@ -7,7 +7,6 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   CloudLightningIcon,
-  Codepen,
   Heater,
   Images,
   Shirt,
@@ -49,6 +48,7 @@ const brandWithIcon = [
 ];
 
 function Shoppinghome() {
+
   const slides = [bannerOne, bannerTwo, bannerThree];
   const [currentSlide, setCurrentSlide] = useState(0);
   const dispatch = useDispatch();
@@ -58,6 +58,8 @@ function Shoppinghome() {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
+
+
 
   function handeNavigateToListingPage(getCurrentItem, section) {
     sessionStorage.removeItem("filter");
@@ -89,6 +91,8 @@ function Shoppinghome() {
     });
   }
 
+
+
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
@@ -111,8 +115,11 @@ function Shoppinghome() {
     }
   }, [productDetail]);
 
+
+
   return (
     <div className="flex flex-col min-h-screen">
+      
       <div className="relative w-full h-[600px] overflow-hidden">
         {slides.map((slide, index) => (
           <img
@@ -212,6 +219,7 @@ function Shoppinghome() {
           </div>
         </div>
       </section>
+
       <ProductDetailsDialog
         open={openDetailsDialog}
         setOpen={setOpenDetailsDialog}

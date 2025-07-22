@@ -7,6 +7,7 @@ import router from "./Routes/auth-routes.js";
 import adminProductsRouter from "./Routes/admin/product-route.js";
 import shopProductRoutes from "./Routes/Shop/products-route.js";
 import CartRouter from "./Routes/Shop/Cart-route.js";
+import ShopAddressRouter from "./Routes/Shop/address-route.js";
 dotenv.config();
 const app = express();
 app.use(
@@ -32,7 +33,7 @@ app.use("/api/auth", router);
 app.use("/api/admin/products", adminProductsRouter);
 app.use("/api/shop/products", shopProductRoutes);
 app.use("/api/shop/cart", CartRouter);
-
+app.use("/api/shop/address ", ShopAddressRouter);
 app.listen(port, () => {
   console.log("server is listening in port ", port);
 });
