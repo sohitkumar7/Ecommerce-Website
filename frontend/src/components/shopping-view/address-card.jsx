@@ -9,8 +9,9 @@ function AddressCard({addressInfo}) {
             <Label>{addressInfo?.city}</Label>
             <Label>{addressInfo?.pincode}</Label>
             <Label>{addressInfo?.phone}</Label>
-            <Label>{addressInfo?.noted}</Label>
+            <Label>{addressInfo?.notes}</Label>
         </CardContent>
     </Card>
 );
 }
+

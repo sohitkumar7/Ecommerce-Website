@@ -33,7 +33,7 @@ app.use("/api/auth", router);
 app.use("/api/admin/products", adminProductsRouter);
 app.use("/api/shop/products", shopProductRoutes);
 app.use("/api/shop/cart", CartRouter);
-app.use("/api/shop/address ", ShopAddressRouter);
+app.use("/api/shop/address", ShopAddressRouter);
 app.listen(port, () => {
   console.log("server is listening in port ", port);
 });
