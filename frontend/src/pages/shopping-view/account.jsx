@@ -1,6 +1,8 @@
 import React from "react";
 import accImg from "../../assets/account.jpg";
 import { Tabs, TabsTrigger, TabsList ,TabsContent} from "../../components/ui/tabs";
+import Orders from "../../components/shopping-view/order";
+import Address from "../../components/shopping-view/address";
 function Shoppingaccount() {
   return (
     <div className="flex flex-col">
@@ -18,10 +20,10 @@ function Shoppingaccount() {
               <TabsTrigger value="address">Address</TabsTrigger>
             </TabsList>
             <TabsContent value="orders">
-              Sohit kumar
+              <Orders/>
             </TabsContent>
             <TabsContent value="address">
-              Anil kumar
+              <Address/>
             </TabsContent>
           </Tabs>
         </div>
