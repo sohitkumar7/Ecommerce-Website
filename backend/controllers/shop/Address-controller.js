@@ -70,9 +70,9 @@ export const EditAddress = async (req, res) => {
   try {
 
     const {userId,addressId} = req.params;
-    const {formData} = req.body;
+    const formData = req.body;
 
-    if(!userId || addressId){
+    if(!userId || !addressId){
         return res.status(400).json({
             success:false,
             message:"Invalid Data Provided"
@@ -108,7 +108,7 @@ export const DeleteAddress = async (req, res) => {
   try {
     
     const {userId,addressId} = req.params;
-     if(!userId || addressId){
+     if(!userId || !addressId){
         return res.status(400).json({
             success:false,
             message:"Invalid Data Provided"

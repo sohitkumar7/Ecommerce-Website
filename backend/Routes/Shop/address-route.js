@@ -6,6 +6,6 @@ const router = express.Router();
 router.post('/add',addAddress)
 router.get('/get/:userId',fetchAllAdress)
 router.put('/update/:userId/:addressId',EditAddress)
-router.delete('/detele/:userId/:addressId',DeleteAddress)
+router.delete('/delete/:userId/:addressId',DeleteAddress)
 
 export default router;

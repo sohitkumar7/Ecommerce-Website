@@ -9,11 +9,10 @@ const initialState = {
 export const addNewAddress = createAsyncThunk(
   "/addresses/addNewAdress",
   async (formData) => {
-    console.log(formData)
+    console.log(formData);
     const response = await axios.post("/api/shop/address/add", formData);
-    console.log("in add new address")
+    console.log("in add new address");
     return response.data;
-
   }
 );
 
@@ -27,9 +26,10 @@ export const fetchAllAdress = createAsyncThunk(
 );
 
 export const editaAddress = createAsyncThunk(
+  "address/editaddress",
   async ({ userId, addressId, formData }) => {
     const response = await axios.put(
-      `/api/shop/address//update/${userId}/${addressId}`,
+      `/api/shop/address/update/${userId}/${addressId}`,
       formData
     );
 
@@ -37,37 +37,60 @@ export const editaAddress = createAsyncThunk(
   }
 );
 
-export const DeleteAddress = createAsyncThunk(async ({ userId, addressId }) => {
-  const response = await axios.delete(
-    `/api/shop/address/detele/${userId}/${addressId}`
-  );
+export const DeleteAddress = createAsyncThunk(
+  "address/deleteadress",
+  async ({ userId, addressId }) => {
+    const response = await axios.delete(
+      `/api/shop/address/delete/${userId}/${addressId}`
+    );
 
-  return response.data;
-});
+    console.log(response);
+
+    return response.data;
+  }
+);
 
 const addressSlice = createSlice({
   name: "address",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(addNewAddress.pending,(state, action) => {
+    builder
+      .addCase(addNewAddress.pending, (state, action) => {
         state.isLoading = true;
-    }).addCase(addNewAddress.fulfilled,(state, action) => {
+      })
+      .addCase(addNewAddress.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.addressList = action.payload.data
-    }).addCase(addNewAddress.rejected,(state, action) => {
+        state.addressList = action.payload.data;
+      })
+      .addCase(addNewAddress.rejected, (state, action) => {
         state.isLoading = false;
-        state.addressList = []
-    }).addCase(fetchAllAdress.pending,(state, action) => {
+        state.addressList = [];
+      })
+      .addCase(fetchAllAdress.pending, (state, action) => {
         state.isLoading = true;
-    }).addCase(fetchAllAdress.fulfilled,(state, action) => {
+      })
+      .addCase(fetchAllAdress.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.addressList = action.payload.data
-      }).addCase(fetchAllAdress.rejected,(state, action) => {
+        state.addressList = action.payload.data;
+      })
+      .addCase(fetchAllAdress.rejected, (state, action) => {
         state.isLoading = false;
-    })
+      })
+      .addCase(DeleteAddress.pending, (state, action) => {
+        state.isLoading = true;
+        console.log(" not Addressdeleted");
+      })
+      .addCase(DeleteAddress.fulfilled, (state, action) => {
+        state.isLoading = false;
+        console.log("Addressdeleted");
+        // state.addressList = action.payload.data
+      })
+      .addCase(DeleteAddress.rejected, (state, action) => {
+        state.isLoading = false;
+        console.log(" not Addressdeleted");
+      });
   },
 });
-
 
 export default addressSlice.reducer;
