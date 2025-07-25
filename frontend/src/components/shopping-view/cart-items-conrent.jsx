@@ -11,6 +11,7 @@ function UserCartItemsContent({ cartItems }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
 
+
   function handleCartItemsDelete(cartItems) {
     const userId = user?._id;
     const productId = cartItems.productId;
@@ -41,8 +42,8 @@ function UserCartItemsContent({ cartItems }) {
   return (
     <div className=" flex items-center sapce-x-4">
       <img
-        src={cartItems.image}
-        alt={cartItems.title}
+        src={cartItems?.image}
+        alt={cartItems?.title}
         className="w-20 h-20 rounded object-cover"
       />
       <div className="flex-1">

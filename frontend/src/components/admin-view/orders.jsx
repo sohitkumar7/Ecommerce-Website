@@ -12,17 +12,22 @@ import {
 } from "../ui/table";
 // import AdminOrderDetailsView from "./order-details";
 import { useDispatch, useSelector } from "react-redux";
+// import {
+//   getAllOrdersForAdmin,
+//   getOrderDetailsForAdmin,
+//   resetOrderDetails,
+// } from "@/store/admin/order-slice";
 import { Badge } from "../ui/badge";
 
-function ShoppingOrders() {
+
+function Adminorders() {
   return (
-    <Card>
+     <Card>
       <CardHeader>
-        <CardTitle>Order History</CardTitle>
+        <CardTitle>All Orders</CardTitle>
       </CardHeader>
       <CardContent>
         <Table>
-          
           <TableHeader>
             <TableRow>
               <TableHead>Order ID</TableHead>
@@ -34,7 +39,6 @@ function ShoppingOrders() {
               </TableHead>
             </TableRow>
           </TableHeader>
-
           {/* <TableBody>
             {orderList && orderList.length > 0
               ? orderList.map((orderItem) => (
@@ -70,7 +74,7 @@ function ShoppingOrders() {
                         >
                           View Details
                         </Button>
-                        <ShoppingOrderDetailsView orderDetails={orderDetails} />
+                        <AdminOrderDetailsView orderDetails={orderDetails} />
                       </Dialog>
                     </TableCell>
                   </TableRow>
@@ -80,7 +84,7 @@ function ShoppingOrders() {
         </Table>
       </CardContent>
     </Card>
-  );
+  )
 }
 
-export default ShoppingOrders;
+export default Adminorders 
