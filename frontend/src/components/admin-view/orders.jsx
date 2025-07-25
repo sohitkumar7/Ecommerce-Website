@@ -8,9 +8,9 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
+  TableRow,     
 } from "../ui/table";
-// import AdminOrderDetailsView from "./order-details";
+import AdminOrderDetailsView from "./order_details.jsx";
 import { useDispatch, useSelector } from "react-redux";
 // import {
 //   getAllOrdersForAdmin,
@@ -19,10 +19,29 @@ import { useDispatch, useSelector } from "react-redux";
 // } from "@/store/admin/order-slice";
 import { Badge } from "../ui/badge";
 
-
 function Adminorders() {
+
+  const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
+  // const { orderList, orderDetails } = useSelector((state) => state.adminOrder);
+//   const dispatch = useDispatch();
+
+//   function handleFetchOrderDetails(getId) {
+//     dispatch(getOrderDetailsForAdmin(getId));
+//   }
+
+//   useEffect(() => {
+//     dispatch(getAllOrdersForAdmin());
+//   }, [dispatch]);
+
+//   console.log(orderDetails, "orderList");
+
+//   useEffect(() => {
+//     if (orderDetails !== null) setOpenDetailsDialog(true);
+//   }, [orderDetails]);
+
+
   return (
-     <Card>
+    <Card>
       <CardHeader>
         <CardTitle>All Orders</CardTitle>
       </CardHeader>
@@ -84,7 +103,7 @@ function Adminorders() {
         </Table>
       </CardContent>
     </Card>
-  )
+  );
 }
 
-export default Adminorders 
+export default Adminorders;

@@ -15,6 +15,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Badge } from "../ui/badge";
 
 function ShoppingOrders() {
+
+
+    const [openDetailsDialog,setOpenDetailsDialog] = useState(false)
+
+
   return (
     <Card>
       <CardHeader>
