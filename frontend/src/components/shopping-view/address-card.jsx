@@ -2,9 +2,9 @@ import { Button } from "../ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 import { Label } from "../ui/label";
 
-function AddressCard({addresInfo,handleDeleteAddress,handleEditAddress}) {
+function AddressCard({addresInfo,handleDeleteAddress,handleEditAddress,setCurrentSelectedAddress}) {
   return (
-    <Card>
+    <Card onClick={setCurrentSelectedAddress ? ()=> setCurrentSelectedAddress(addresInfo) : null}>
         <CardContent className="grid gap-4">
             <Label>Address : {addresInfo?.address}</Label>
             <Label>City : {addresInfo?.city}</Label>

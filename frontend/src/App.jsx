@@ -19,6 +19,9 @@ import Unauthpage from "./pages/unauth-age/index.jsx";
 import { Toaster } from 'react-hot-toast'
 import { useDispatch, useSelector } from "react-redux";
 import { checkAuth } from "./store/auth-slice";
+import PaypalReturnPage from "./pages/shopping-view/paypal-return.jsx";
+import PaymentSuccessPage from "./pages/shopping-view/payment-success.jsx";
+
 function App() {
 
   const {isAuthenticated,user,isLoading} = useSelector(state => state.auth)
@@ -72,6 +75,9 @@ function App() {
           <Route path="listing" element={<Shoppinglisting />} />
           <Route path="home" element={<Shoppinghome />} />
           <Route path="checkout" element={<Shoppingcheckout />} />
+          <Route path="paypal-return" element={<PaypalReturnPage/>} />
+          <Route path="payment-success" element={<PaymentSuccessPage/>} />
+
         </Route>
 
         <Route path="*" element={<Notindex />}>

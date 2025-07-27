@@ -1,8 +1,8 @@
 import paypal from "paypal-rest-sdk"
 paypal.configure({
     mode:"sandbox",
-    client_id: "AbM2P447p4X4KVLtpNwlw7KV2bAYhX3ri89J_wZaaVVbiNdJDn0Q4KuzC29y90tCRQ1Okh7cMzvRPPl5",
-    client_secret: "EIzsd2gNOPWpg7na4pq2kQfuPFoH-g3enbuUaE-xTNdPhWPzmV5hyP2kj-y_cZxPrCbX7ZW8ccUHnR-O",
+    client_id: "AXzGJBN8y3cXyYx5eTBm7K3XNpZCHHg2r5dvTs7VSbOSzxEKOWdkgQLN7s0EFOmTgloZ_DpMhLa5dPwP",
+    client_secret: "EIlIGsWeruD8z6bGRQ08vlt2j36FprVM7nRqKcT6E7Mj1Si2PccxNkCyXX9Fi09RLg00joFOZa8wsVQy",
 })
 
-module.exports = paypal;
+export default paypal
