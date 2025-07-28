@@ -12,32 +12,32 @@ import {
 } from "../ui/table";
 import AdminOrderDetailsView from "./order_details.jsx";
 import { useDispatch, useSelector } from "react-redux";
-// import {
-//   getAllOrdersForAdmin,
-//   getOrderDetailsForAdmin,
-//   resetOrderDetails,
-// } from "@/store/admin/order-slice";
+import {
+  getAllOrdersForAdmin,
+  getOrderDetailsForAdmin,
+  resetOrderDetails,
+} from "../..//store/admin/order-slice";
 import { Badge } from "../ui/badge";
 
 function Adminorders() {
 
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
-  // const { orderList, orderDetails } = useSelector((state) => state.adminOrder);
-//   const dispatch = useDispatch();
+  const { orderList, orderDetails } = useSelector((state) => state.adminOrder);
+  const dispatch = useDispatch();
 
-//   function handleFetchOrderDetails(getId) {
-//     dispatch(getOrderDetailsForAdmin(getId));
-//   }
+  function handleFetchOrderDetails(getId) {
+    dispatch(getOrderDetailsForAdmin(getId));
+  }
 
-//   useEffect(() => {
-//     dispatch(getAllOrdersForAdmin());
-//   }, [dispatch]);
+  useEffect(() => {
+    dispatch(getAllOrdersForAdmin());
+  }, [dispatch]);   
 
-//   console.log(orderDetails, "orderList");
+  console.log(orderDetails, "orderList");
 
-//   useEffect(() => {
-//     if (orderDetails !== null) setOpenDetailsDialog(true);
-//   }, [orderDetails]);
+  useEffect(() => {
+    if (orderDetails !== null) setOpenDetailsDialog(true);
+  }, [orderDetails]);
 
 
   return (
@@ -58,7 +58,7 @@ function Adminorders() {
               </TableHead>
             </TableRow>
           </TableHeader>
-          {/* <TableBody>
+          <TableBody>
             {orderList && orderList.length > 0
               ? orderList.map((orderItem) => (
                   <TableRow>
@@ -99,7 +99,7 @@ function Adminorders() {
                   </TableRow>
                 ))
               : null}
-          </TableBody> */}
+          </TableBody>
         </Table>
       </CardContent>
     </Card>

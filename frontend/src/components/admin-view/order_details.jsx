@@ -5,11 +5,11 @@ import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
 import { Badge } from "../ui/badge";
 import { useDispatch, useSelector } from "react-redux";
-// import {
-//   getAllOrdersForAdmin,
-//   getOrderDetailsForAdmin,
-//   updateOrderStatus,
-// } from "@/store/admin/order-slice";
+import {
+  getAllOrdersForAdmin,
+  getOrderDetailsForAdmin,
+  // updateOrderStatus,
+} from "../..//store/admin/order-slice";
 
 const initialFormData = {
   status: "",
@@ -17,12 +17,27 @@ const initialFormData = {
 
 function AdminOrderDetailsView(orderDetails) {
   const [formData, setFormData] = useState(initialFormData);
+  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
 
-    function handleUpdateStatus(e){
-        e.preventDefault()
-        
-    }
+  console.log(orderDetails, "orderDetailsorderDetails");
+
+  function handleUpdateStatus(event) {
+    event.preventDefault();
+    const { status } = formData;
+
+    dispatch(
+      updateOrderStatus({ id: orderDetails?._id, orderStatus: status })
+    ).then((data) => {
+      if (data?.payload?.success) {
+        dispatch(getOrderDetailsForAdmin(orderDetails?._id));
+        dispatch(getAllOrdersForAdmin());
+        setFormData(initialFormData);
+        toast.success(data?.payload?.message)
+      }
+    });
+  }
 
   return (
     <DialogContent className="sm:max-w-[600px]">
@@ -34,7 +49,7 @@ function AdminOrderDetailsView(orderDetails) {
           </div>
           <div className="flex mt-2 items-center justify-between">
             <p className="font-medium">Order Date</p>
-            <Label>{orderDetails?.orderDate.split("T")[0]}</Label>
+            {/* <Label>{orderDetails?.orderDate.split("T")[0]}</Label> */}
           </div>
           <div className="flex mt-2 items-center justify-between">
             <p className="font-medium">Order Price</p>
