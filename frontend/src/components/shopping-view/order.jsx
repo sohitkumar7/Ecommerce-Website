@@ -13,31 +13,29 @@ import {
 // import AdminOrderDetailsView from "./order-details";
 import { useDispatch, useSelector } from "react-redux";
 import { Badge } from "../ui/badge";
-import { getAllOrderByUser, getOrderDetail } from "../../store/shop/order-Slice";
+import { getAllOrderByUser, getOrderDetail, resetOrderDetails } from "../../store/shop/order-Slice";
+import ShoppingOrderDetailsView from "./order-detail";
 
 function ShoppingOrders() {
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const { orderList,OrderDetails } = useSelector((state) => state.shopOrder);
+  const { orderList, OrderDetails } = useSelector((state) => state.shopOrder);
 
-
-  function handleFetchOrderDetails(getId){
-    dispatch(getOrderDetail(getId))
+  function handleFetchOrderDetails(getId) {
+    dispatch(getOrderDetail(getId));
   }
 
-
   useEffect(() => {
-    let userId = user?._id;
-    dispatch(getAllOrderByUser(userId));
+
+    dispatch(getAllOrderByUser(user?._id));
   }, [dispatch]);
 
-  useEffect(()=>{
-    if(OrderDetails !== null){
-      setOpenDetailsDialog(true)
-    } 
-  },[OrderDetails])
+  useEffect(() => {
+    if (OrderDetails !== null) setOpenDetailsDialog(true);
+  }, [OrderDetails]);
 
+  console.log(OrderDetails, "orderDetails");
 
   return (
     <Card>
@@ -57,7 +55,6 @@ function ShoppingOrders() {
               </TableHead>
             </TableRow>
           </TableHeader>
-
           <TableBody>
             {orderList && orderList.length > 0
               ? orderList.map((orderItem) => (
@@ -75,7 +72,7 @@ function ShoppingOrders() {
                         }`}
                       >
                         {orderItem?.orderStatus}
-                      </Badge> 
+                      </Badge>
                     </TableCell>
                     <TableCell>${orderItem?.totalAmount}</TableCell>
                     <TableCell>
@@ -93,7 +90,7 @@ function ShoppingOrders() {
                         >
                           View Details
                         </Button>
-                        {/* <ShoppingOrderDetailsView orderDetails={orderDetails} /> */}
+                        <ShoppingOrderDetailsView orderDetails={OrderDetails} />
                       </Dialog>
                     </TableCell>
                   </TableRow>
@@ -107,3 +104,4 @@ function ShoppingOrders() {
 }
 
 export default ShoppingOrders;
+
