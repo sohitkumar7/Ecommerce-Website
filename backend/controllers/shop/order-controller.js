@@ -1,6 +1,6 @@
 import paypal from "../../helpers/payapal.js";
 import Orders from "../../models/Order.js";
-import Cart from "../../models/cart.js"
+import Cart from "../../models/cart.js";
 
 export const CreateOrder = async (req, res) => {
   try {
@@ -112,41 +112,89 @@ export const CreateOrder = async (req, res) => {
 
 export const capturePayment = async (req, res) => {
   try {
+    const { paymentId, payerId, orderId } = req.body;
 
-    const {paymentId,payerId,orderId} = req.body;
+    const order = await Orders.findById(orderId);
 
-    const order  = await Orders.findById(orderId);
-
-    if(!order){
+    if (!order) {
       return res.status(400).json({
         success: false,
-        message: "order  is invalid"
-      })
+        message: "order  is invalid",
+      });
     }
 
-
-    order.paymentStatus = 'paid' 
-    order.orderStatus = "confirmed"
-    order.paymentId = paymentId
+    order.paymentStatus = "paid";
+    order.orderStatus = "confirmed";
+    order.paymentId = paymentId;
     order.payerId = payerId;
 
     const getCartId = order.cartId;
     await Cart.findByIdAndDelete(getCartId);
 
-
     await order.save();
 
     res.status(200).json({
-      success:true,
-      message:"order Confirmed",
-      data : order
-    })
-
+      success: true,
+      message: "order Confirmed",
+      data: order,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({
       success: false,
       message: "some error Occured",
+    });
+  }
+};
+
+export const getAllOrdersByUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const orders = await Orders.find({ userId });
+
+    if (!orders.length) {
+      return res.status(404).json({
+        success: false,
+        message: "No orders found!",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: orders,
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({
+      success: false,
+      message: "Some error occured!",
+    });
+  }
+};
+
+export const getOrderDetails = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const order = await Orders.findById(id);
+
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found!",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: order,
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({
+      success: false,
+      message: "Some error occured!",
     });
   }
 };

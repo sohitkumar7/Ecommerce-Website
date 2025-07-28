@@ -11,7 +11,6 @@ function UserCartItemsContent({ cartItems }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
 
-
   function handleCartItemsDelete(cartItems) {
     const userId = user?._id;
     const productId = cartItems.productId;

@@ -13,11 +13,30 @@ import {
 // import AdminOrderDetailsView from "./order-details";
 import { useDispatch, useSelector } from "react-redux";
 import { Badge } from "../ui/badge";
+import { getAllOrderByUser, getOrderDetail } from "../../store/shop/order-Slice";
 
 function ShoppingOrders() {
+  const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+  const { orderList,OrderDetails } = useSelector((state) => state.shopOrder);
 
 
-    const [openDetailsDialog,setOpenDetailsDialog] = useState(false)
+  function handleFetchOrderDetails(getId){
+    dispatch(getOrderDetail(getId))
+  }
+
+
+  useEffect(() => {
+    let userId = user?._id;
+    dispatch(getAllOrderByUser(userId));
+  }, [dispatch]);
+
+  useEffect(()=>{
+    if(OrderDetails !== null){
+      setOpenDetailsDialog(true)
+    } 
+  },[OrderDetails])
 
 
   return (
@@ -27,7 +46,6 @@ function ShoppingOrders() {
       </CardHeader>
       <CardContent>
         <Table>
-          
           <TableHeader>
             <TableRow>
               <TableHead>Order ID</TableHead>
@@ -40,7 +58,7 @@ function ShoppingOrders() {
             </TableRow>
           </TableHeader>
 
-          {/* <TableBody>
+          <TableBody>
             {orderList && orderList.length > 0
               ? orderList.map((orderItem) => (
                   <TableRow>
@@ -57,7 +75,7 @@ function ShoppingOrders() {
                         }`}
                       >
                         {orderItem?.orderStatus}
-                      </Badge>
+                      </Badge> 
                     </TableCell>
                     <TableCell>${orderItem?.totalAmount}</TableCell>
                     <TableCell>
@@ -75,13 +93,13 @@ function ShoppingOrders() {
                         >
                           View Details
                         </Button>
-                        <ShoppingOrderDetailsView orderDetails={orderDetails} />
+                        {/* <ShoppingOrderDetailsView orderDetails={orderDetails} /> */}
                       </Dialog>
                     </TableCell>
                   </TableRow>
                 ))
               : null}
-          </TableBody> */}
+          </TableBody>
         </Table>
       </CardContent>
     </Card>
