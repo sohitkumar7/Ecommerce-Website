@@ -8,25 +8,26 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getAllOrdersForAdmin,
   getOrderDetailsForAdmin,
-  // updateOrderStatus,
+  updateOrderStatus,
+
 } from "../..//store/admin/order-slice";
+import {toast} from "react-hot-toast"
 
 const initialFormData = {
   status: "",
 };
 
-function AdminOrderDetailsView(orderDetails) {
+function AdminOrderDetailsView({orderDetails}) {
   const [formData, setFormData] = useState(initialFormData);
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-
-
-  console.log(orderDetails, "orderDetailsorderDetails");
 
   function handleUpdateStatus(event) {
     event.preventDefault();
     const { status } = formData;
 
+    console.log(orderDetails._id,"ORDERDETAILs ID");
+    console.log(status);
     dispatch(
       updateOrderStatus({ id: orderDetails?._id, orderStatus: status })
     ).then((data) => {
