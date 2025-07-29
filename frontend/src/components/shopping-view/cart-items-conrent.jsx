@@ -8,10 +8,11 @@ import {
 import toast from "react-hot-toast";
 
 function UserCartItemsContent({ cartItems }) {
-  
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const { cartItems } = useSelector((state) => state.shopCart);
+  const { cartItems: cartItemsFromStore } = useSelector(
+    (state) => state.shopCart
+  );
   const { productList } = useSelector((state) => state.shopProducts);
   function handleCartItemsDelete(cartItems) {
     const userId = user?._id;
@@ -23,22 +24,22 @@ function UserCartItemsContent({ cartItems }) {
     });
   }
 
-  function handleUpdateQuantity(getcartItems, typeOfAction, getToatalStock) {
+  function handleUpdateQuantity(getcartItems, typeOfAction) {
     if (typeOfAction === "plus") {
-      let getCartItems = cartItems.items || [];
+      let getCartItems = cartItemsFromStore.items || [];
       if (getCartItems.length) {
         const indexOfCurrentCartItems = getCartItems.findIndex(
           (item) => item.productId === getcartItems.productId
         );
         const getCurrentProductIndex = productList.findIndex(
-          (product) => product._id === getCartItems?.productId
+          (product) => product._id === getcartItems.productId
         );
 
-        const getTotalStock = productList[getCurrentProductIndex].totalStock
+        const getTotalStock = productList[getCurrentProductIndex].totalStock;
 
         if (indexOfCurrentCartItems > -1) {
           const getQuantity = getCartItems[indexOfCurrentCartItems].quantity;
-          if (getQuantity + 1 > getToatalStock) {
+          if (getQuantity + 1 > getTotalStock) {
             toast.error(
               `only ${getQuantity} quantity can be added for this item`
             );
@@ -65,7 +66,7 @@ function UserCartItemsContent({ cartItems }) {
   }
 
   return (
-    <div className=" flex items-center sapce-x-4">
+    <div className=" flex items-center space-x-4">
       <img
         src={cartItems?.image}
         alt={cartItems?.title}

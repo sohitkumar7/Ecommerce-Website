@@ -33,19 +33,14 @@ function Shoppingcheckout() {
       : 0;
 
   function handleInitiatePaypalPayment() {
-
-
-    if(currentSelectedAddress === null){
-        
-      toast.error("Please select One Address to Proceed")
+    if (currentSelectedAddress === null) {
+      toast.error("Please select One Address to Proceed");
       return;
     }
-    if(cartItems.length === 0){
-        
-      toast.error("Your Cart is Empty..! Please Add Items")
+    if (cartItems.length === 0) {
+      toast.error("Your Cart is Empty..! Please Add Items");
       return;
     }
-
 
     const orderData = {
       cartId: cartItems?._id,
@@ -79,18 +74,16 @@ function Shoppingcheckout() {
     console.log(cartItems?._id);
 
     dispatch(createNewOrder(orderData)).then((data) => {
-      
-      if(data?.payload?.success){
-          setIsPaymemntStart(true)
-      }else{
-        setIsPaymemntStart(false)
+      if (data?.payload?.success) {
+        setIsPaymemntStart(true);
+      } else {
+        setIsPaymemntStart(false);
       }
-    })
-
+    });
   }
 
-  if(approvalURL) {
-    window.location.href = approvalURL
+  if (approvalURL) {
+    window.location.href = approvalURL;
   }
 
   return (
@@ -117,9 +110,9 @@ function Shoppingcheckout() {
           </div>
           <div className="mt-4 w-full">
             <Button onClick={handleInitiatePaypalPayment} className="w-full">
-              {/* {isPaymentStart
+              {isPaymentStart
                 ? "Processing Paypal Payment..."
-                : "Checkout with Paypal"} */}
+                : "Checkout with Paypal"}
             </Button>
           </div>
         </div>
