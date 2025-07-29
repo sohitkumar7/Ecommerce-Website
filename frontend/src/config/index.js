@@ -110,6 +110,11 @@ export const shopingViewHeaderMenuItems = [
     path:'/shop/home'
   },
   {
+    id: 'products',
+    label: 'Products',
+    path:'/shop/listing'
+  },
+  {
     id: 'men',
     label: 'Men',
     path:'/shop/listing'

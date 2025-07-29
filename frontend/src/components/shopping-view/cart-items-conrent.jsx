@@ -8,9 +8,11 @@ import {
 import toast from "react-hot-toast";
 
 function UserCartItemsContent({ cartItems }) {
+  
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-
+  const { cartItems } = useSelector((state) => state.shopCart);
+  const { productList } = useSelector((state) => state.shopProducts);
   function handleCartItemsDelete(cartItems) {
     const userId = user?._id;
     const productId = cartItems.productId;
@@ -18,18 +20,42 @@ function UserCartItemsContent({ cartItems }) {
       if (data?.payload.success) {
         toast.success("Cart Item is Deleted Successfully ");
       }
-    });;
+    });
   }
 
-  function handleUpdateQuantity(cartItems, typeOfAction) {
+  function handleUpdateQuantity(getcartItems, typeOfAction, getToatalStock) {
+    if (typeOfAction === "plus") {
+      let getCartItems = cartItems.items || [];
+      if (getCartItems.length) {
+        const indexOfCurrentCartItems = getCartItems.findIndex(
+          (item) => item.productId === getcartItems.productId
+        );
+        const getCurrentProductIndex = productList.findIndex(
+          (product) => product._id === getCartItems?.productId
+        );
+
+        const getTotalStock = productList[getCurrentProductIndex].totalStock
+
+        if (indexOfCurrentCartItems > -1) {
+          const getQuantity = getCartItems[indexOfCurrentCartItems].quantity;
+          if (getQuantity + 1 > getToatalStock) {
+            toast.error(
+              `only ${getQuantity} quantity can be added for this item`
+            );
+            return;
+          }
+        }
+      }
+    }
+
     dispatch(
       UpdateCartQuantity({
         userId: user?._id,
-        productId: cartItems.productId,
+        productId: getcartItems.productId,
         quantity:
           typeOfAction === "plus"
-            ? cartItems.quantity + 1
-            : cartItems.quantity - 1,
+            ? getcartItems.quantity + 1
+            : getcartItems.quantity - 1,
       })
     ).then((data) => {
       if (data?.payload.success) {
@@ -52,7 +78,7 @@ function UserCartItemsContent({ cartItems }) {
             className="h-8 w-8 rounded-full"
             variant="outline"
             size="icon"
-            disabled = {cartItems?.quantity === 1}
+            disabled={cartItems?.quantity === 1}
             onClick={() => handleUpdateQuantity(cartItems, "minus")}
           >
             <Minus className="w-4 h-4" />

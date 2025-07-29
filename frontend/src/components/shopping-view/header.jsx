@@ -1,4 +1,9 @@
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import { HousePlug, Menu, ShoppingCart, LogOut, UserCog } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
@@ -18,26 +23,36 @@ import { useEffect, useState } from "react";
 import { fetchCartItems } from "../../store/shop/cart-slice";
 
 function MenuItems() {
-
   const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-    function handeNavigate(getCurrentItem) {
-
+  function handeNavigate(getCurrentItem) {
     sessionStorage.removeItem("filter");
-    const currentFilter = getCurrentItem.id !== 'home' ? 
-    {
-      category : [getCurrentItem.id]
-    } : null
+    const currentFilter =
+      getCurrentItem.id !== "home" && getCurrentItem.id !== "products"
+        ? {
+            category: [getCurrentItem.id],
+          }
+        : null;
 
     sessionStorage.setItem("filter", JSON.stringify(currentFilter));
-    navigate(getCurrentItem.path);
+    location.pathname.includes("listing") && currentFilter !== null
+      ? setSearchParams(new URLSearchParams(`?category=${getCurrentItem.id}`))
+      : navigate(getCurrentItem.path);
   }
-  
 
   return (
     <nav className="flex flex-col mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row">
       {shopingViewHeaderMenuItems.map((menuItems) => (
-        <label onClick={()=>{handeNavigate(menuItems)}} className="text-sm font-medium cursor-pointer" >{menuItems.label}</label>
+        <label
+          onClick={() => {
+            handeNavigate(menuItems);
+          }}
+          className="text-sm font-medium cursor-pointer"
+        >
+          {menuItems.label}
+        </label>
       ))}
     </nav>
   );
@@ -73,7 +88,7 @@ function HeaderRightContent() {
           <span className="sr-only">User cart</span>
         </button>
         <UserCartWrapper
-        serOpenCartSheet={setOpenCartSheet}
+          serOpenCartSheet={setOpenCartSheet}
           cartItems={
             cartItems && cartItems.items && cartItems.items.length > 0
               ? cartItems.items

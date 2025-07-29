@@ -36,7 +36,7 @@ function createSearchParamsHelper(filterParams) {
 }
 
 function Shoppinglisting() {
-  // feetch list of product
+
   const dispatch = useDispatch();
   const { productList, productDetail } = useSelector(
     (state) => state.shopProducts
@@ -46,18 +46,14 @@ function Shoppinglisting() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
   const { user } = useSelector((state) => state.auth);
-  
-  // console.log(user)
-
+  const categorySearchParams = searchParams.get("category");
+  const {cartItems} = useSelector((state)=>state.shopCart)
   function handleSort(value) {
     console.log(value);
     setSort(value);
   }
 
   function handleFilter(getSectionId, getCurrentOptions) {
-    // console.log(getSectionId, "getSectionoid")
-    // console.log(getCurrentOptions,"getcurrentoptions")
-
     let cpyFilters = { ...filters };
     const indexOfCurrentSection = Object.keys(cpyFilters).indexOf(getSectionId);
     if (indexOfCurrentSection === -1) {
@@ -74,18 +70,33 @@ function Shoppinglisting() {
         cpyFilters[getSectionId].splice(indexOfCurrentOption, 1);
       }
     }
-    // console.log(cpyFilters);
+
     setFilters(cpyFilters);
     sessionStorage.setItem("filter", JSON.stringify(cpyFilters));
   }
+
   function handleGetProductDetails(getCurrentProductId) {
     console.log(getCurrentProductId);
     dispatch(fetchProductDetails(getCurrentProductId));
   }
 
-  function handleAddToCart(getCurrentProductId) {
-    const userId = user?._id
+  function handleAddToCart(getCurrentProductId,getToatalStock) {
+    const userId = user?._id;
+    console.log(cartItems,"cartItems")
+    let getCartItems = cartItems.items || []
+    if(getCartItems.length){
+      const indexOfCurrentItems = getCartItems.findIndex(item=>item.productId === getCurrentProductId )
+      
+      if(indexOfCurrentItems > -1){
+        const getQuantity = getCartItems[indexOfCurrentItems].quantity;
+        if(getQuantity + 1 >getToatalStock ){
+          toast.error(`only ${getQuantity} quantity can be added for this item`)
+          return;
+        }
+      }
 
+
+    }
     dispatch(
       addToCart({
         userId: user?._id,
@@ -93,9 +104,9 @@ function Shoppinglisting() {
         quantity: 1,
       })
     ).then((data) => {
-      if(data?.payload?.success){
-        dispatch(fetchCartItems({userId}))
-        toast.success("Product is Added to Cart")
+      if (data?.payload?.success) {
+        dispatch(fetchCartItems({ userId }));
+        toast.success("Product is Added to Cart");
       }
     });
   }
@@ -103,7 +114,7 @@ function Shoppinglisting() {
   useEffect(() => {
     setSort("price-lowtohigh");
     setFilters(JSON.parse(sessionStorage.getItem("filter")) || {});
-  }, []);
+  }, [categorySearchParams]);
 
   useEffect(() => {
     if (filters && Object.keys(filters).length > 0) {
@@ -125,7 +136,7 @@ function Shoppinglisting() {
     }
   }, [productDetail]);
 
-  // console.log(cartItems)
+  console.log(productList, "productList");
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
