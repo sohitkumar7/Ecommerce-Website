@@ -14,7 +14,7 @@ const store = configureStore({
     
     adminProducts: AdminProductSlice,
     adminOrder: adminOrderSlice,
-
+    
     shopProducts: shopProductSlice,
     shopCart: shopCartSlice,
     shopAddress : shopAddressSlice,

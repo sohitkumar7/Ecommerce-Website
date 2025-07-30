@@ -139,6 +139,11 @@ export const shopingViewHeaderMenuItems = [
     label: 'accessories',
     path:'/shop/listing'
   },
+  {
+    id: 'search',
+    label: 'Search',
+    path:'/shop/search'
+  },
 
 ]
 

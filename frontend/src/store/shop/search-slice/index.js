@@ -6,10 +6,9 @@ const initialState = {
   searchResults: [],
 };
 
-const getSearchResult = createAsyncThunk(
-  "/get/searchResult",
+export const getSearchResults = createAsyncThunk(
+  "/get/getSearchResults",
   async (keyword) => {
-
     const response = await axios.get(`/api/shop/search/${keyword}`);
 
     return response;
@@ -19,18 +18,25 @@ const getSearchResult = createAsyncThunk(
 const SearchSlice = createSlice({
   name: "SearchSlice",
   initialState,
-  reducers: {},
+  reducers: {
+    resetSearchResults: (state) => {
+      state.searchResults = [];
+    },
+  },
   extraReducers: (builder) => {
-    builder.addCase(getSearchResult.pending,(state)=>{
-        state.isLoading = true
-    }).addCase(getSearchResult.fulfilled,(state,action)=>{
-         state.isLoading = false;
-         state.searchResults = action?.payload?.data;
-    }).addCase(getSearchResult.rejected,(state)=>{
+    builder
+      .addCase(getSearchResults.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getSearchResults.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.searchResults = []
-    })
+        state.searchResults = action?.payload?.data.data;
+      })
+      .addCase(getSearchResults.rejected, (state) => {
+        state.isLoading = false;
+        state.searchResults = [];
+      });
   },
 });
-
+export const {resetSearchResults} = SearchSlice.actions;
 export default SearchSlice.reducer;

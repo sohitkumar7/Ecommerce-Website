@@ -17,7 +17,7 @@ import {
   fetchAllFilterProducts,
   fetchProductDetails,
 } from "../../store/shop/product-slice";
-import ShoppingProductTile from "../../components/shopping-view/Product-tile";
+import ShoppingProductTile from "../../components/shopping-view/Product-tile.jsx";
 import { createSearchParams, useSearchParams } from "react-router-dom";
 import ProductDetailsDialog from "../../components/shopping-view/productDetails";
 import { addToCart, fetchCartItems } from "../../store/shop/cart-slice";

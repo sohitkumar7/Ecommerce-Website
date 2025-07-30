@@ -30,7 +30,9 @@ function MenuItems() {
   function handeNavigate(getCurrentItem) {
     sessionStorage.removeItem("filter");
     const currentFilter =
-      getCurrentItem.id !== "home" && getCurrentItem.id !== "products"
+      getCurrentItem.id !== "home" &&
+      getCurrentItem.id !== "products" &&
+      getCurrentItem.id !== "search"
         ? {
             category: [getCurrentItem.id],
           }
