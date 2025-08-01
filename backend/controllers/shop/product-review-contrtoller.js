@@ -71,7 +71,7 @@ export const getProductReview = async (req, res) => {
       productId,
     });
 
-    req.status(200).json({
+    res.status(200).json({
       success: true,
       data: review,
     });
