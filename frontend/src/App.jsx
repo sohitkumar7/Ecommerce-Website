@@ -38,6 +38,12 @@ function App() {
   return (
     <div className="flex-col overflow-hidden bg-white">
       <Routes>
+ 
+        <Route path="/"  element={
+            <Checkauth isAutheticated={isAuthenticated} user={user}>
+            </Checkauth>
+          }/>
+
         <Route
           path="/auth"
           element={

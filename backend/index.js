@@ -12,7 +12,7 @@ import ShopOrderRouter from "./Routes/Shop/order-routes.js";
 import AdminOrderRouter from "./Routes/admin/order-routes.js";
 import ShopSearchRouter from "./Routes/Shop/search-routes.js"
 import shopReviewRouter from "./Routes/Shop/review-route.js"
-
+import commonfeatureRouter from "./Routes/common/feature-route.js"
 dotenv.config();
 const app = express();
 app.use(
@@ -43,6 +43,8 @@ app.use("/api/shop/address", ShopAddressRouter);
 app.use("/api/shop/order", ShopOrderRouter);
 app.use("/api/shop/search", ShopSearchRouter);
 app.use("/api/shop/review", shopReviewRouter);
+app.use("/api/shop/review", shopReviewRouter);
+app.use("/api/common/feature", commonfeatureRouter);
 
 app.listen(port, () => {
   console.log("server is listening in port ", port);
