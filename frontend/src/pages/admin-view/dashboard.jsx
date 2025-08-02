@@ -27,6 +27,8 @@ function AdminDashboard() {
 
   useEffect(() => {
     dispatch(getFeatureImages());
+    setImageFile(null);
+    setUploadedImageUrl("")
   }, [dispatch]);
 
   return (
