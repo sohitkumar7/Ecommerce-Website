@@ -27,7 +27,7 @@ function AuthLogin() {
       // console.log(data);
       if(data?.payload?.success){
         toast.success(data?.payload?.message);
-         window.location.href = "/shop/home";
+        //  window.location.href = "/shop/home";
       }else{
         // console.log(data);
         toast.error(data?.payload?.message);
