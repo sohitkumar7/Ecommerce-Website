@@ -2,6 +2,12 @@ import paypal from "../../helpers/payapal.js";
 import Orders from "../../models/Order.js";
 import Cart from "../../models/cart.js";
 import Product from "../../models/Product.js"
+
+const frontendBaseUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://sohit-ecom.netlify.app" // deployed frontend
+    : "http://localhost:5173"; // local dev
+
 export const CreateOrder = async (req, res) => {
   try {
     const {
@@ -25,8 +31,8 @@ export const CreateOrder = async (req, res) => {
         payment_method: "paypal",
       },
       redirect_urls: {
-        return_url: "http://localhost:5173/shop/paypal-return",
-        cancel_url: "http://localhost:5173/shop/paypal-cancel",
+        return_url: `${frontendBaseUrl}/shop/paypal-return`,
+        cancel_url: `${frontendBaseUrl}/shop/paypal-cancel`,
       },
       transactions: [
         {
