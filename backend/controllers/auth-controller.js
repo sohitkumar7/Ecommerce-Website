@@ -31,7 +31,7 @@ export const register = async (req, res) => {
         User: {
           _id: newuser._id,
           email: newuser.email,
-          usernmae: newuser.email,
+          userName: newuser.userName,
           role: newuser.role,
         },
       });
@@ -40,7 +40,7 @@ export const register = async (req, res) => {
     console.log("error in register controller", error);
     return res.status(500).json({
       success: false,
-      message: "some error occured",
+      message: error.message,
     });
   }
 };
@@ -81,14 +81,19 @@ export const login = async (req, res) => {
     console.log("error in login controller", error);
     return res.status(500).json({
       success: false,
-      message: "Error occured in login controller",
+      message: error.message,
     });
   }
 };
 
 export const logout = async (req, res) => {
   try {
-    res.clearCookie("jwt");
+    res.clearCookie("jwt", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // true in production
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
+    });
+    
     res.status(200).json({
       sucess: true,
       message: "Logout Successfully",
@@ -97,12 +102,12 @@ export const logout = async (req, res) => {
     console.log("Error in logout controller");
     return res.status(500).json({
       success: false,
-      message: "Error in logout",
+      message: error.message,
     });
   }
 };
 
-export const authMiddleware = async (req, res,next) => {
+export const authMiddleware = async (req, res, next) => {
   try {
     const token = req.cookies.jwt;
 
@@ -128,8 +133,6 @@ export const authMiddleware = async (req, res,next) => {
     next();
   } catch (error) {
     console.error("CheckAuth Error:", error);
-    return res
-      .status(500)
-      .json({ success: false, message: error });
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
