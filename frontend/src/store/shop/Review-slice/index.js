@@ -5,12 +5,13 @@ const initialState = {
   isLoading: false,
   reviews: [],
 };
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const addReview = createAsyncThunk(
   "/order/addReview",
   async (formdata) => {
     const response = await axios.post(
-      `/api/shop/review/add`,
+      `${API_BASE_URL}/api/shop/review/add`,
       formdata
     );
 
@@ -20,7 +21,7 @@ export const addReview = createAsyncThunk(
 
 export const getReviews = createAsyncThunk("/order/getReviews", async (id) => {
   const response = await axios.get(
-    `/api/shop/review/${id}`
+    `${API_BASE_URL}/api/shop/review/${id}`
   );
 
   return response.data;

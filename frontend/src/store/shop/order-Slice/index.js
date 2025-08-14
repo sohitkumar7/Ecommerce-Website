@@ -9,10 +9,13 @@ const initialState = {
   OrderDetails: null,
 };
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+
 export const createNewOrder = createAsyncThunk(
   "/order/createNewOrder",
   async (orderData) => {
-    const response = await axios.post("/api/shop/order/create", orderData);
+    const response = await axios.post(`${API_BASE_URL}/api/shop/order/create`, orderData);
 
     return response.data;
   }
@@ -20,7 +23,7 @@ export const createNewOrder = createAsyncThunk(
 export const capturePayment = createAsyncThunk(
   "/order/captureOrder",
   async ({ paymentId, payerId, orderId }) => {
-    const response = await axios.post("/api/shop/order/capture", {
+    const response = await axios.post(`${API_BASE_URL}/api/shop/order/capture`, {
       paymentId,
       payerId,
       orderId,
@@ -33,7 +36,7 @@ export const capturePayment = createAsyncThunk(
 export const getAllOrderByUser = createAsyncThunk(
   "/getAllorder/list",
   async (userId) => {
-    const response = await axios.get(`/api/shop/order/list/${userId}`);
+    const response = await axios.get(`${API_BASE_URL}/api/shop/order/list/${userId}`);
 
     return response.data;
   }
@@ -41,7 +44,7 @@ export const getAllOrderByUser = createAsyncThunk(
 export const getOrderDetail = createAsyncThunk(
   "/getOrderDetail/list",
   async (id) => {
-    const response = await axios.get(`/api/shop/order/details/${id}`);
+    const response = await axios.get(`${API_BASE_URL}/api/shop/order/details/${id}`);
 
     return response.data;
   }

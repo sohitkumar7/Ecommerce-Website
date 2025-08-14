@@ -6,11 +6,14 @@ const initialState = {
   addressList: [],
 };
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+
 export const addNewAddress = createAsyncThunk(
   "/addresses/addNewAdress",
   async (formData) => {
     console.log(formData);
-    const response = await axios.post("/api/shop/address/add", formData);
+    const response = await axios.post(`${API_BASE_URL}/api/shop/address/add`, formData);
     console.log("in add new address");
     return response.data;
   }
@@ -19,7 +22,7 @@ export const addNewAddress = createAsyncThunk(
 export const fetchAllAdress = createAsyncThunk(
   "/addresses/fetchAllAdress",
   async (userId) => {
-    const response = await axios.get(`/api/shop/address/get/${userId}`);
+    const response = await axios.get(`${API_BASE_URL}/api/shop/address/get/${userId}`);
 
     return response.data;
   }
@@ -29,7 +32,7 @@ export const editaAddress = createAsyncThunk(
   "address/editaddress",
   async ({ userId, addressId, formData }) => {
     const response = await axios.put(
-      `/api/shop/address/update/${userId}/${addressId}`,
+      `${API_BASE_URL}/api/shop/address/update/${userId}/${addressId}`,
       formData
     );
 
@@ -41,7 +44,7 @@ export const DeleteAddress = createAsyncThunk(
   "address/deleteadress",
   async ({ userId, addressId }) => {
     const response = await axios.delete(
-      `/api/shop/address/delete/${userId}/${addressId}`
+      `${API_BASE_URL}/api/shop/address/delete/${userId}/${addressId}`
     );
 
     console.log(response);

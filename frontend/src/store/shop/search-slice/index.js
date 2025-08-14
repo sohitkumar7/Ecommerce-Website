@@ -5,11 +5,12 @@ const initialState = {
   isLoading: false,
   searchResults: [],
 };
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const getSearchResults = createAsyncThunk(
   "/get/getSearchResults",
   async (keyword) => {
-    const response = await axios.get(`/api/shop/search/${keyword}`);
+    const response = await axios.get(`${API_BASE_URL}/api/shop/search/${keyword}`);
 
     return response;
   }
