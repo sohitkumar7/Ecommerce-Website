@@ -10,14 +10,17 @@ import CartRouter from "./Routes/Shop/Cart-route.js";
 import ShopAddressRouter from "./Routes/Shop/address-route.js";
 import ShopOrderRouter from "./Routes/Shop/order-routes.js";
 import AdminOrderRouter from "./Routes/admin/order-routes.js";
-import ShopSearchRouter from "./Routes/Shop/search-routes.js"
-import shopReviewRouter from "./Routes/Shop/review-route.js"
-import commonfeatureRouter from "./Routes/common/feature-route.js"
+import ShopSearchRouter from "./Routes/Shop/search-routes.js";
+import shopReviewRouter from "./Routes/Shop/review-route.js";
+import commonfeatureRouter from "./Routes/common/feature-route.js";
 dotenv.config();
 const app = express();
 app.use(
   cors({
-    origin: "http://localhost:5173", // or whatever your frontend domain is
+    origin: [
+      "http://localhost:5173", // local dev
+      "https://sohit-ecom.netlify.app", // live frontend
+    ],
     credentials: true,
   })
 );
@@ -36,7 +39,7 @@ try {
 
 app.use("/api/auth", router);
 app.use("/api/admin/products", adminProductsRouter);
-app.use("/api/admin/orders", AdminOrderRouter);     
+app.use("/api/admin/orders", AdminOrderRouter);
 app.use("/api/shop/products", shopProductRoutes);
 app.use("/api/shop/cart", CartRouter);
 app.use("/api/shop/address", ShopAddressRouter);
