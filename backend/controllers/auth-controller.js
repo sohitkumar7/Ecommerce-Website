@@ -82,6 +82,7 @@ export const login = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Error occured in login controller",
+      errors: error
     });
   }
 };
@@ -112,7 +113,7 @@ export const authMiddleware = async (req, res,next) => {
         .json({ success: false, message: "Unauthorized: No token" });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_TOKEN);
+    const decoded = jwt.verify(token, process.env.JWT_Token);
     if (!decoded) {
       return res.status(401).json({ success: false, message: "Invalid token" });
     }
