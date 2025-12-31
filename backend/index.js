@@ -15,9 +15,13 @@ import shopReviewRouter from "./Routes/Shop/review-route.js"
 import commonfeatureRouter from "./Routes/common/feature-route.js"
 dotenv.config();
 const app = express();
+
 app.use(
   cors({
-    origin: "http://localhost:5173", // or whatever your frontend domain is
+    origin: [
+      "http://localhost:5173", 
+      "https://ecommerce-website-henna-mu.vercel.app" 
+    ],
     credentials: true,
   })
 );
