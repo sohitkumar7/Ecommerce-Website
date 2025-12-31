@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import CommonForm from "../../components/commmon/form";
 import { LoginFormControls } from "../../config";
 import toast from "react-hot-toast";
-import axios from "axios";
+import api from "@api";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../store/auth-slice";
 

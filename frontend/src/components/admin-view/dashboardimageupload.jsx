@@ -3,7 +3,7 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { FileIcon, UploadCloudIcon, XIcon } from "lucide-react";
 import { Button } from "../ui/button";
-import axios from "axios";
+import api from "@api";
 
 function DashboardProductImageUpload({
   imageFile,
@@ -44,7 +44,7 @@ function DashboardProductImageUpload({
       setImageLoadingState(true);
       const data = new FormData();
       data.append("my_file", imageFile);
-      const response = await axios.post("/api/admin/products/upload-image", data);
+      const response = await api.post("/api/admin/products/upload-image", data);
       if (response?.data?.success) {
         setUploadedImageUrl(response.data.result.url);
       }

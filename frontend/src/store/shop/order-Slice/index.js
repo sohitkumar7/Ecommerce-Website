@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import api from "@api";
 
 const initialState = {
   approvalURL: null,
@@ -12,7 +12,7 @@ const initialState = {
 export const createNewOrder = createAsyncThunk(
   "/order/createNewOrder",
   async (orderData) => {
-    const response = await axios.post("/api/shop/order/create", orderData);
+    const response = await api.post("/api/shop/order/create", orderData);
 
     return response.data;
   }
@@ -20,7 +20,7 @@ export const createNewOrder = createAsyncThunk(
 export const capturePayment = createAsyncThunk(
   "/order/captureOrder",
   async ({ paymentId, payerId, orderId }) => {
-    const response = await axios.post("/api/shop/order/capture", {
+    const response = await api.post("/api/shop/order/capture", {
       paymentId,
       payerId,
       orderId,
@@ -33,7 +33,7 @@ export const capturePayment = createAsyncThunk(
 export const getAllOrderByUser = createAsyncThunk(
   "/getAllorder/list",
   async (userId) => {
-    const response = await axios.get(`/api/shop/order/list/${userId}`);
+    const response = await api.get(`/api/shop/order/list/${userId}`);
 
     return response.data;
   }
@@ -41,7 +41,7 @@ export const getAllOrderByUser = createAsyncThunk(
 export const getOrderDetail = createAsyncThunk(
   "/getOrderDetail/list",
   async (id) => {
-    const response = await axios.get(`/api/shop/order/details/${id}`);
+    const response = await api.get(`/api/shop/order/details/${id}`);
 
     return response.data;
   }
