@@ -25,10 +25,10 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 
-const mongodb_uri = process.env.mongodb_uri;
+const MONGODB_URI = process.env.MONGODB_URI;
 const port = process.env.PORT;
 try {
-  mongoose.connect(mongodb_uri);
+  mongoose.connect(MONGODB_URI);
   console.log("mongoDB connect successfully");
 } catch (error) {
   console.log("Error in connection of mongodb");

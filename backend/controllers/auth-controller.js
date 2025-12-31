@@ -113,7 +113,7 @@ export const authMiddleware = async (req, res,next) => {
         .json({ success: false, message: "Unauthorized: No token" });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_Token);
+    const decoded = jwt.verify(token, process.env.JWT_TOKEN);
     if (!decoded) {
       return res.status(401).json({ success: false, message: "Invalid token" });
     }
