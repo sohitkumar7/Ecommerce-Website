@@ -2,6 +2,7 @@ import paypal from "../../helpers/payapal.js";
 import Orders from "../../models/Order.js";
 import Cart from "../../models/cart.js";
 import Product from "../../models/Product.js"
+
 export const CreateOrder = async (req, res) => {
   try {
     const {
@@ -19,14 +20,20 @@ export const CreateOrder = async (req, res) => {
       paymentId,
     } = req.body;
 
+    const isProd = process.env.NODE_ENV === "production";
+
+    const CLIENT_URL = isProd
+      ? "https://ecommerce-website-henna-mu.vercel.app"
+      : "http://localhost:5173";
+
     const create_Payment_json = {
       intent: "sale",
       payer: {
         payment_method: "paypal",
       },
       redirect_urls: {
-        return_url: "http://localhost:5173/shop/paypal-return",
-        cancel_url: "http://localhost:5173/shop/paypal-cancel",
+        return_url: `${CLIENT_URL}/shop/paypal-return`,
+        cancel_url: `${CLIENT_URL}/shop/paypal-cancel`,
       },
       transactions: [
         {
@@ -50,7 +57,7 @@ export const CreateOrder = async (req, res) => {
 
     paypal.payment.create(create_Payment_json, async (error, paymentInfo) => {
       if (error) {
-        console.error("PayPal Error:", error);
+        console.error("PayPal Error:", error.response || error);
         return res.status(500).json({
           success: false,
           message: "Error creating PayPal payment",
@@ -102,13 +109,14 @@ export const CreateOrder = async (req, res) => {
     });
   } catch (error) {
     console.error("Outer error:", error);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "An unexpected error occurred",
       error: error.message,
     });
   }
 };
+
 
 export const capturePayment = async (req, res) => {
   try {
