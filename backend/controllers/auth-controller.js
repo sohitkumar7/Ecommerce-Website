@@ -82,20 +82,28 @@ export const login = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Error occured in login controller",
-      errors: error
+      errors: error,
     });
   }
 };
 
 export const logout = async (req, res) => {
   try {
-    res.clearCookie("jwt");
+    const isProd = process.env.NODE_ENV === "production";
+
+    res.clearCookie("jwt", {
+      httpOnly: true,
+      secure: isProd,
+      sameSite: isProd ? "none" : "lax",
+      path: "/",
+    });
+
     res.status(200).json({
-      sucess: true,
+      success: true,
       message: "Logout Successfully",
     });
   } catch (error) {
-    console.log("Error in logout controller");
+    console.log("Error in logout controller", error);
     return res.status(500).json({
       success: false,
       message: "Error in logout",
@@ -103,7 +111,7 @@ export const logout = async (req, res) => {
   }
 };
 
-export const authMiddleware = async (req, res,next) => {
+export const authMiddleware = async (req, res, next) => {
   try {
     const token = req.cookies.jwt;
 
@@ -129,8 +137,6 @@ export const authMiddleware = async (req, res,next) => {
     next();
   } catch (error) {
     console.error("CheckAuth Error:", error);
-    return res
-      .status(500)
-      .json({ success: false, message: error });
+    return res.status(500).json({ success: false, message: error });
   }
 };

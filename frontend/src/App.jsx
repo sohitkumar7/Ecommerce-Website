@@ -31,7 +31,7 @@ function App() {
 
   useEffect(()=>{
     dispatch(checkAuth());
-  },[])
+  },[dispatch])
 
   if(isLoading) return <div>Loading....</div>
 
