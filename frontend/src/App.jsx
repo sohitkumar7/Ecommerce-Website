@@ -22,6 +22,7 @@ import { checkAuth, logoutUser } from "./store/auth-slice";
 import PaypalReturnPage from "./pages/shopping-view/paypal-return.jsx";
 import PaymentSuccessPage from "./pages/shopping-view/payment-success.jsx";
 import SearchProducts from "./pages/shopping-view/search.jsx";
+import LoadingSpinner from "./components/ui/loading-spinner.jsx";
 
 function App() {
 
@@ -33,21 +34,24 @@ function App() {
     dispatch(checkAuth());
   },[dispatch])
 
-  if(isLoading) return <div>Loading....</div>
+
+
+  if(isLoading) return <LoadingSpinner />;
 
   return (
     <div className="flex-col overflow-hidden bg-white">
       <Routes>
  
         <Route path="/"  element={
-            <Checkauth isAutheticated={isAuthenticated} user={user}>
+            <Checkauth isAuthenticated={isAuthenticated} user={user}>
+              <Shoppinghome />
             </Checkauth>
           }/>
 
         <Route
           path="/auth"
           element={
-            <Checkauth isAutheticated={isAuthenticated} user={user}>
+            <Checkauth isAuthenticated={isAuthenticated} user={user}>
               <AuthLayout />
             </Checkauth>
           }
@@ -59,7 +63,7 @@ function App() {
         <Route
           path="/admin"
           element={
-            <Checkauth isAutheticated={isAuthenticated} user={user}>
+            <Checkauth isAuthenticated={isAuthenticated} user={user}>
               <AdminLayout />
             </Checkauth>
           }
@@ -70,23 +74,24 @@ function App() {
           <Route path="dashboard" element={<Admindashboard />} />
         </Route>
 
-        <Route
-          path="/Shop"
-          element={
-            <Checkauth isAutheticated={isAuthenticated} user={user}>
-              <Shoppingloyout />
-            </Checkauth>
-          }
-        >
-          <Route path="account" element={<Shoppingaccount />} />
-          <Route path="listing" element={<Shoppinglisting />} />
-          <Route path="home" element={<Shoppinghome />} />
-          <Route path="checkout" element={<Shoppingcheckout />} />
-          <Route path="paypal-return" element={<PaypalReturnPage/>} />
-          <Route path="payment-success" element={<PaymentSuccessPage/>} />
-          <Route path="search" element={<SearchProducts/>} />
+          <Route
+            path="/Shop"
+            element={
+              <Checkauth isAuthenticated={isAuthenticated} user={user}>
+                <Shoppingloyout />
+              </Checkauth>
+            }
+          >
+            <Route index element={<Shoppinghome />} />
+            <Route path="account" element={<Shoppingaccount />} />
+            <Route path="listing" element={<Shoppinglisting />} />
+            <Route path="home" element={<Shoppinghome />} />
+            <Route path="checkout" element={<Shoppingcheckout />} />
+            <Route path="paypal-return" element={<PaypalReturnPage/>} />
+            <Route path="payment-success" element={<PaymentSuccessPage/>} />
+            <Route path="search" element={<SearchProducts/>} />
 
-        </Route>
+          </Route>
 
         <Route path="*" element={<Notindex />}>
           {" "}

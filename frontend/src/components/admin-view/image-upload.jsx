@@ -17,7 +17,6 @@ function ProductImageUpload({
 }) {
   const inputRef = useRef(null);
   function handleimagefilechange(e) {
-    console.log(e.target.files);
     const selectedFile = e.target.files?.[0];
     if (selectedFile) setImageFile(selectedFile);
   }
@@ -37,7 +36,6 @@ function ProductImageUpload({
     }
   }
 
-  console.log(imageFile);
 
   async function uploadimagetocloudnary() {
     try {
@@ -48,7 +46,6 @@ function ProductImageUpload({
         "/api/admin/products/upload-image",
         data
       );
-      console.log("response", response);
       if (response?.data?.success) {
         setuploadedImageUrl(response.data.result.url);
       }

@@ -52,7 +52,6 @@ const AdminProductSlice = createSlice({
     builder.addCase(fetchAllProducts.pending,(state)=>{
         state.isLoading = true
     }).addCase(fetchAllProducts.fulfilled,(state,action) => {
-      //  console.log(action.payload.data)
         state.isLoading = false 
        state.productList = action.payload.data
     }).addCase(fetchAllProducts.rejected,(state,action) => {

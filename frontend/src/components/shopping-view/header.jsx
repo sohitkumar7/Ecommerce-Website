@@ -69,12 +69,10 @@ function HeaderRightContent() {
 
   useEffect(() => {
     const userId = user?._id;
-    console.log(userId, "userid");
     dispatch(fetchCartItems({ userId }));
   }, [dispatch]);
 
   function handlelogout() {
-    console.log("logout");
     dispatch(logoutUser());
   }
 

@@ -15,7 +15,6 @@ const initialstate = {
 function AuthRegister() {
   const [formData, setFormData] = useState(initialstate);
   const navigate = useNavigate();
-  console.log(formData);
 
   const dispatch = useDispatch();
 
@@ -24,10 +23,8 @@ function AuthRegister() {
     dispatch(registerUser(formData)).then((data)=>{
       if(data?.payload?.success){
         toast.success(data?.payload?.message)
-        console.log(data);
         navigate('/auth/login')
       }else{
-        console.log(data);
         toast.error("User Already Exist with this Email Id")
       }
     })

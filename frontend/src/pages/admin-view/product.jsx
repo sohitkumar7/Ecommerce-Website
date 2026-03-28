@@ -49,7 +49,6 @@ function Adminproduct() {
             formData,
           })
         ).then((data) => {
-          console.log(data, "edit");
           if (data.payload.success) {
             dispatch(fetchAllProducts());
             setFormdata(initialFormData);
@@ -63,7 +62,6 @@ function Adminproduct() {
             image: uploadedImageUrl,
           })
         ).then((data) => {
-          console.log(data);
           if (data?.payload?.success) {
             dispatch(fetchAllProducts());
             setopenCreateProductDialog(false);
@@ -75,7 +73,6 @@ function Adminproduct() {
   }
 
   function handleDelete(getCurrentProductId) {
-    console.log(getCurrentProductId);
 
     dispatch(deteleProduct(getCurrentProductId)).then((data) => {
       if (data.payload.success) {
@@ -94,8 +91,6 @@ function Adminproduct() {
     dispatch(fetchAllProducts());
   }, [dispatch]);
 
-  // console.log("productlist",uploadedImageUrl,productList)
-  console.log(uploadedImageUrl, "imageurl");
   return (
     <>
       <div className="w-full flex justify-end">

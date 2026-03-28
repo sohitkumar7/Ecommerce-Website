@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import CommonForm from "../../components/commmon/form";
 import { LoginFormControls } from "../../config";
 import toast from "react-hot-toast";
@@ -15,20 +16,29 @@ const initialstate = {
 function AuthLogin() {
   const [formData, setFormData] = useState(initialstate);
   const navigate = useNavigate();
-  // console.log(formData);
+
 
 
   const dispatch = useDispatch();
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      if (user.role === "admin") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/Shop/home");
+      }
+    }
+  }, [isAuthenticated, user, navigate]);
 
   function onSubmit(e){
     e.preventDefault();
 
     dispatch(loginUser(formData)).then((data)=>{
-      // console.log(data);
       if(data?.payload?.success){
         toast.success(data?.payload?.message);
       }else{
-        // console.log(data);
         toast.error(data?.payload?.message);
       }
     })

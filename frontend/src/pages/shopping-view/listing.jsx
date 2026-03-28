@@ -49,7 +49,6 @@ function Shoppinglisting() {
   const categorySearchParams = searchParams.get("category");
   const {cartItems} = useSelector((state)=>state.shopCart)
   function handleSort(value) {
-    console.log(value);
     setSort(value);
   }
 
@@ -76,13 +75,11 @@ function Shoppinglisting() {
   }
 
   function handleGetProductDetails(getCurrentProductId) {
-    console.log(getCurrentProductId);
     dispatch(fetchProductDetails(getCurrentProductId));
   }
 
   function handleAddToCart(getCurrentProductId,getToatalStock) {
     const userId = user?._id;
-    console.log(cartItems,"cartItems")
     let getCartItems = cartItems.items || []
     if(getCartItems.length){
       const indexOfCurrentItems = getCartItems.findIndex(item=>item.productId === getCurrentProductId )
@@ -135,8 +132,6 @@ function Shoppinglisting() {
       setOpenDetailsDialog(true);
     }
   }, [productDetail]);
-
-  console.log(productList, "productList");
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">

@@ -11,7 +11,6 @@ import { toast } from "react-hot-toast";
 function Shoppingcheckout() {
   const { cartItems } = useSelector((state) => state.shopCart);
 
-  console.log(cartItems);
 
   const { user } = useSelector((state) => state.auth);
   const { approvalURL } = useSelector((state) => state.shopOrder);
@@ -71,7 +70,6 @@ function Shoppingcheckout() {
       payerId: "",
       paymentId: "",
     };
-    console.log(cartItems?._id);
 
     dispatch(createNewOrder(orderData)).then((data) => {
       if (data?.payload?.success) {

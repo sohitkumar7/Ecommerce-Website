@@ -22,8 +22,6 @@ export const fetchCartItems = createAsyncThunk(
   async ({ userId }) => {
     const response = await api.get(`/api/shop/cart/get/${userId}`);
 
-    console.log(response.data,"fetchCartItems")
-
     return response.data;
   }
 );
@@ -73,7 +71,6 @@ const shoppingCartSlice = createSlice({
       })
       .addCase(fetchCartItems.fulfilled, (state,action) => {
         state.isLoading = false;
-        // console.log(action.payload.data);
         state.cartItems = action.payload.data;
       })
       .addCase(fetchCartItems.rejected, (state) => {

@@ -9,9 +9,7 @@ const initialState = {
 export const addNewAddress = createAsyncThunk(
   "/addresses/addNewAdress",
   async (formData) => {
-    console.log(formData);
     const response = await api.post("/api/shop/address/add", formData);
-    console.log("in add new address");
     return response.data;
   }
 );
@@ -44,7 +42,6 @@ export const DeleteAddress = createAsyncThunk(
       `/api/shop/address/delete/${userId}/${addressId}`
     );
 
-    console.log(response);
 
     return response.data;
   }
@@ -79,16 +76,13 @@ const addressSlice = createSlice({
       })
       .addCase(DeleteAddress.pending, (state, action) => {
         state.isLoading = true;
-        console.log(" not Addressdeleted");
       })
       .addCase(DeleteAddress.fulfilled, (state, action) => {
         state.isLoading = false;
-        console.log("Addressdeleted");
         // state.addressList = action.payload.data
       })
       .addCase(DeleteAddress.rejected, (state, action) => {
         state.isLoading = false;
-        console.log(" not Addressdeleted");
       });
   },
 });

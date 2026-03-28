@@ -35,7 +35,6 @@ function ShoppingOrders() {
     if (OrderDetails !== null) setOpenDetailsDialog(true);
   }, [OrderDetails]);
 
-  console.log(OrderDetails, "orderDetails");
 
   return (
     <Card>

@@ -1,17 +1,17 @@
 import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 
-function checkauth({ isAutheticated, user, children }) {
+function checkauth({ isAuthenticated, user, children }) {
   const location = useLocation();
 
   if (location.pathname === "/") {
-    if (!isAutheticated) {
+  if (!isAuthenticated) {
       return <Navigate to="/auth/login" />;
     } else {
-      if (user.role === "admin") {
+        if (user.role === "admin") {
         return <Navigate to="/admin/dashboard" />;
       } else {
-        return <Navigate to="/shop/home" />;
+        return <Navigate to="/Shop/home" />;
       }
     }
   }
@@ -21,25 +21,25 @@ function checkauth({ isAutheticated, user, children }) {
       location.pathname.includes("/login") ||
       location.pathname.includes("/register")
     ) &&
-    !isAutheticated
+    !isAuthenticated
   ) {
     return <Navigate to="/auth/login" />;
   }
 
   if (
-    isAutheticated &&
+    isAuthenticated &&
     (location.pathname.includes("/login") ||
       location.pathname.includes("/register"))
   ) {
-    if (user.role === "admin") {
+      if (user.role === "admin") {
       return <Navigate to="/admin/dashboard" />;
     } else {
-      return <Navigate to="/shop/home" />;
+      return <Navigate to="/Shop/home" />;
     }
   }
 
   if (
-    isAutheticated &&
+    isAuthenticated &&
     user?.role !== "admin" &&
     location.pathname.includes("admin")
   ) {
@@ -47,8 +47,8 @@ function checkauth({ isAutheticated, user, children }) {
   }
 
   if (
-    isAutheticated &&
-    user?.role == "admin" &&
+    isAuthenticated &&
+    user?.role === "admin" &&
     location.pathname.includes("shop")
   ) {
     return <Navigate to="/admin/dashboard" />;

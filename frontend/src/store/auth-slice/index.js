@@ -19,6 +19,7 @@ export const loginUser = createAsyncThunk(
   "/auth/login",
   async (formData) => {
     const response = await api.post("/api/auth/login", formData);
+    // dispatch(checkAuth());
     return response.data;
   }
 );
@@ -70,6 +71,7 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.user = action.payload.success ? action.payload.User : null;
         state.isAuthenticated = action.payload.success;
+        // Auto checkAuth after login handled in App.jsx useEffect
       })
       .addCase(loginUser.rejected, (state) => {
         state.isLoading = false;

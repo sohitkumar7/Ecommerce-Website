@@ -16,7 +16,6 @@ function productDetailsDialog({ open, setOpen, productDetails }) {
   const [reviewMsg, setReviewMsg] = useState("");
   const [rating, setRating] = useState(0);
   const { user } = useSelector((state) => state.auth);
-  console.log(user, "productDetails");
   const dispatch = useDispatch();
   const { cartItems } = useSelector((state) => state.shopCart);
   const { reviews } = useSelector((state) => state.shopReview);
@@ -26,7 +25,6 @@ function productDetailsDialog({ open, setOpen, productDetails }) {
   }
 
   function handleAddToCart(getCurrentProductId, getToatalStock) {
-    console.log(getCurrentProductId);
     const userId = user?._id;
     let getCartItems = cartItems.items || [];
     if (getCartItems.length) {
@@ -74,7 +72,6 @@ function productDetailsDialog({ open, setOpen, productDetails }) {
   };
   function handleAddReview() {
     dispatch(addReview(formData)).then((data) => {
-      console.log(data);
       if (data.payload.success) {
         setRating(0);
         setReviewMsg("");
@@ -90,8 +87,6 @@ function productDetailsDialog({ open, setOpen, productDetails }) {
       dispatch(getReviews(productDetails?._id));
     }
   }, [productDetails]);
-
-  console.log(reviews, "reviews");
 
   const averageReview = reviews && reviews.length > 0 ?
     reviews.reduce((sum, reviewItem) => sum + reviewItem.reviewValue, 0) /

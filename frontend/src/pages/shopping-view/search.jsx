@@ -24,7 +24,6 @@ function SearchProducts() {
 
   function handleAddToCart(getCurrentProductId, getToatalStock) {
     const userId = user?._id;
-    console.log(cartItems, "cartItems");
     let getCartItems = cartItems.items || [];
     if (getCartItems.length) {
       const indexOfCurrentItems = getCartItems.findIndex(
@@ -56,7 +55,6 @@ function SearchProducts() {
   }
 
   function handleGetProductDetails(getCurrentProductId) {
-    console.log(getCurrentProductId);
     dispatch(fetchProductDetails(getCurrentProductId));
   }
 
@@ -78,7 +76,6 @@ function SearchProducts() {
     }
   }, [keyword]);
 
-  console.log(searchResults, "searchResults");
 
   return (
     <div className="container mx-auto md:px-6 px-4 py-8">
